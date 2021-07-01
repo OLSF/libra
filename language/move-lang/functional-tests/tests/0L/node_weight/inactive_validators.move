@@ -14,9 +14,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Alice is the only one that can update her mining stats. Hence this first transaction.
+        // Alice is the only one that can update her mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::get_count_in_epoch({{alice}}) == 5, 7357300101011000);
     }
 }
@@ -31,8 +32,10 @@ script {
     use 0x1::MinerState;
 
     fun main(vm: signer) {
+        let vm = &vm;
 
-        // Base Case: If validator universe vector length is less than the validator set size limit (N), return vector itself.
+        // Base Case: If validator universe vector length is less than the 
+        // validator set size limit (N), return vector itself.
         // N equals to the vector length.
 
         //Check the size of the validator universe.
@@ -42,7 +45,8 @@ script {
 
         MinerState::reconfig(vm, &vec);
 
-        // This is the base case: check case of the validator set limit being less than universe size.
+        // This is the base case: check case of the validator set limit being 
+        // less than universe size.
         let top_n_is_under = NodeWeight::top_n_accounts(vm, 3);
         assert(Vector::length<address>(&top_n_is_under) == 3, 7357140102021000);
 

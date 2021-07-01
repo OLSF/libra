@@ -9,9 +9,8 @@ use 0x1::MinerState;
 use 0x1::TestFixtures;
 
 fun main(sender: signer) {
-
     MinerState::init_miner_state(
-        sender,
+        &sender,
         &TestFixtures::alice_0_easy_chal(),
         &TestFixtures::alice_0_easy_sol()
     );

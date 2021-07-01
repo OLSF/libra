@@ -21,12 +21,12 @@ fun main(alice_sig: signer) {
   let (eve_addr, _auth_key) = VDF::extract_address_from_challenge(&challenge);
   assert(eve_addr == 0x3DC18D1CF61FAAC6AC70E3A63F062E4B, 401);
   
-  let sender_addr = Signer::address_of(alice_sig);
+  let sender_addr = Signer::address_of(&alice_sig);
   let epochs_since_creation = 10;
   MinerState::test_helper_set_rate_limit(sender_addr, epochs_since_creation);
 
   DiemAccount::create_validator_account_with_proof(
-      alice_sig,
+      &alice_sig,
       &challenge,
       &solution,
       b"leet",

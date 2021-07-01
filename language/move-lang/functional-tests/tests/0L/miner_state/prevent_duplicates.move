@@ -12,7 +12,7 @@ script {
 
     fun main(sender: signer) {
         MinerState::test_helper(
-            sender,
+            &sender,
             100u64, //difficulty
             TestFixtures::easy_chal(),
             TestFixtures::easy_sol()
@@ -39,7 +39,7 @@ script {
             difficulty,
             TestFixtures::easy_sol()
         );
-        MinerState::commit_state(sender, proof);
+        MinerState::commit_state(&sender, proof);
     }
 }
 // check: VMExecutionFailure(ABORTED { code: 130103

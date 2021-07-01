@@ -7,24 +7,21 @@
 //! new-transaction
 //! sender: bob
 script {
-use 0x1::MinerState;
-// ;
-use 0x1::TestFixtures;
+    use 0x1::MinerState;
+    use 0x1::TestFixtures;
 
-fun main(sender: signer) {
+    fun main(sender: signer) {
+        // Testing that state can be initialized, and a proof submitted as if it were genesis.
+        // buildign block for other tests.
+        MinerState::test_helper(
+            &sender,
+            100u64, // difficulty
+            TestFixtures::easy_chal(),
+            TestFixtures::easy_sol()
+        );
 
-    // Testing that state can be initialized, and a proof submitted as if it were genesis.
-    // buildign block for other tests.
-    MinerState::test_helper(
-        sender,
-        100u64, // difficulty
-        TestFixtures::easy_chal(),
-        TestFixtures::easy_sol()
-    );
-
-    let height = MinerState::test_helper_get_height({{bob}});
-    assert(height==0, 01);
-
-}
+        let height = MinerState::test_helper_get_height({{bob}});
+        assert(height==0, 01);
+    }
 }
 // check: EXECUTED
