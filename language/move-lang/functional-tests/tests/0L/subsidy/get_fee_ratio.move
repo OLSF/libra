@@ -6,7 +6,7 @@
 script {
     use 0x1::MinerState;
     fun main(sender: signer) {
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
     }
 }
 //check: EXECUTED
@@ -16,7 +16,7 @@ script {
 script {
     use 0x1::MinerState;
     fun main(sender: signer) {
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
     }
 }
 //check: EXECUTED
@@ -32,6 +32,7 @@ script {
   fun main(vm: signer) {
     // check the case of a network density of 4 active validators.
 
+    let vm = &vm;
     let voters = Vector::singleton<address>({{alice}});
     Vector::push_back(&mut voters, {{bob}});
 
@@ -47,7 +48,11 @@ script {
     let (validators, fee_ratios) = DiemSystem::get_fee_ratio(vm, 0, 15);
     assert(Vector::length(&validators) == 2, 735701);
     assert(Vector::length(&fee_ratios) == 2, 735702);
-    assert(*(Vector::borrow<FixedPoint32::FixedPoint32>(&fee_ratios, 1)) == FixedPoint32::create_from_raw_value(2147483648u64), 735703);
+    assert(
+      *(Vector::borrow<FixedPoint32::FixedPoint32>(&fee_ratios, 1)) 
+        == FixedPoint32::create_from_raw_value(2147483648u64),
+      735703
+    );
 
   }
 }

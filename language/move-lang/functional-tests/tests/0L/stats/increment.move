@@ -8,11 +8,11 @@
 script {
     use 0x1::Stats;
     // use 0x1::assert;
-    
 
     fun main(vm: signer){
       // Assumes accounts were initialized in genesis.
-
+    
+      let vm = &vm;
       assert(Stats::node_current_props(vm, {{alice}}) == 0, 7357190201011000);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 7357190201021000);
       assert(Stats::node_current_votes(vm, {{alice}}) == 0, 7357190201031000);

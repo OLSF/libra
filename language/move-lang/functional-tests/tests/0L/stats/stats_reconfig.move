@@ -11,6 +11,8 @@ script {
 
     fun main(vm: signer){
       // Check that after a reconfig the counter is reset, and archived in history.
+      
+      let vm = &vm;
       assert(Stats::node_current_props(vm, {{alice}}) == 0, 7357190201011000);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 7357190201021000);
       assert(Stats::node_current_votes(vm, {{alice}}) == 0, 7357190201031000);
@@ -41,7 +43,6 @@ script {
 
       assert(Stats::node_current_props(vm, {{alice}}) == 0, 0);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 0);
-
     }
 }
 // check: EXECUTED

@@ -11,7 +11,7 @@ use 0x1::Debug::print;
 
 fun main(vm: signer) {
     let old_account_bal = DiemAccount::balance<GAS>({{alice}});
-    Subsidy::genesis(vm);
+    Subsidy::genesis(&vm);
     let new_account_bal = DiemAccount::balance<GAS>({{alice}});
     print(&new_account_bal);
     assert(new_account_bal>old_account_bal, 73570001);

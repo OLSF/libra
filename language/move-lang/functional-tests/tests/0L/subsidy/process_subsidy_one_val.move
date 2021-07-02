@@ -17,7 +17,7 @@ script {
     fun main(sender: signer) {
         //NOTE: Alice is Case 1, she validates and mines. Setting up mining.
         let mining_proofs = 5;
-        MinerState::test_helper_mock_mining(sender, mining_proofs);
+        MinerState::test_helper_mock_mining(&sender, mining_proofs);
 
     }
 }
@@ -31,7 +31,7 @@ script {
     fun main(sender: signer) {
         let mining_proofs = 5;
       //NOTE: Carol is Case 3, she mines but does not validate. Setting up mining.
-        MinerState::test_helper_mock_mining(sender, mining_proofs);
+        MinerState::test_helper_mock_mining(&sender, mining_proofs);
     }
 }
 //check: EXECUTED
@@ -50,6 +50,7 @@ script {
   fun main(vm: signer) {
     // check the case of a network density of 4 active validators.
 
+    let vm = &vm;
     let validators = Vector::singleton<address>({{alice}});
     Vector::push_back(&mut validators, {{bob}});
 
@@ -84,21 +85,24 @@ script {
   use 0x1::Debug::print;
 
   fun main(vm: signer) {
-    let (validators, fee_ratios) = DiemSystem::get_fee_ratio(vm, 0, 15);
+    let (validators, fee_ratios) = DiemSystem::get_fee_ratio(&vm, 0, 15);
     let subsidy_amount = 1000000;
     let mining_proofs = 5; // mocked above
-    let refund_to_operator = 4336 * mining_proofs; // from Subsidy::BASELINE_TX_COST * genesis proof for account
-    Subsidy::process_subsidy(vm, subsidy_amount, &validators, &fee_ratios);
+    // from Subsidy::BASELINE_TX_COST * genesis proof for account
+    let refund_to_operator = 4336 * mining_proofs; 
+    Subsidy::process_subsidy(&vm, subsidy_amount, &validators, &fee_ratios);
     print(&7357);
     print(&DiemAccount::balance<GAS>({{alice}}));
     // starting balance + subsidy amount - refund operator tx fees for mining
-    assert(DiemAccount::balance<GAS>({{alice}}) == 1 + subsidy_amount - refund_to_operator, 7357190102091000);
+    assert(
+      DiemAccount::balance<GAS>({{alice}}) == 1 + subsidy_amount - refund_to_operator,
+      7357190102091000
+    );
     // 995764
 
     assert(DiemAccount::balance<GAS>({{bob}}) == 1, 7357190102101000);
     assert(DiemAccount::balance<GAS>({{carol}}) == 1, 7357190102111000);
     assert(DiemAccount::balance<GAS>({{dave}}) == 1, 7357190102121000);
-
   }
 }
 // check: EXECUTED

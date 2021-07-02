@@ -24,9 +24,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::get_count_in_epoch({{alice}}) == 5, 7357300101011000);
     }
 }
@@ -38,9 +39,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::test_helper_get_count({{bob}}) == 5, 7357300101011000);
     }
 }
@@ -52,9 +54,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::test_helper_get_count({{carol}}) == 5, 7357300101011000);
     }
 }
@@ -66,9 +69,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::test_helper_get_count({{dave}}) == 5, 7357300101011000);
     }
 }
@@ -80,9 +84,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::get_count_in_epoch({{eve}}) == 5, 7357300101011000);
     }
 }
@@ -107,7 +112,7 @@ script {
         let i = 1;
         while (i < 15) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
 

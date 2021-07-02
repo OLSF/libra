@@ -12,7 +12,7 @@ script {
     use 0x1::Vector;
 
     fun main(account: signer) {
-        let addr = Signer::address_of(account);
+        let addr = Signer::address_of(&account);
         let (my_before, _ ) = TrustedAccounts::get_trusted(addr);
         let len = Vector::length<address>(&my_before);
         assert(len == 0, 7357130101011000);
@@ -21,7 +21,7 @@ script {
         let vec_follow = Vector::singleton<address>({{bob}});
 
         TrustedAccounts::update(
-            account,
+            &account,
             vec_my, //update_my
             vec_follow, //update_follow
         );

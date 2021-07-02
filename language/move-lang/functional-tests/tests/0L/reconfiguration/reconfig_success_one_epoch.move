@@ -17,8 +17,8 @@
 //! new-transaction
 //! sender: diemroot
 script {
-    
     use 0x1::DiemSystem;
+
     fun main(_account: signer) {
         // Tests on initial size of validators 
         assert(DiemSystem::validator_set_size() == 5, 7357000180101);
@@ -32,8 +32,8 @@ script {
 //! new-transaction
 //! sender: diemroot
 script {
-    
     use 0x1::DiemSystem;
+
     fun main(_account: signer) {
         // Tests on initial size of validators 
         assert(DiemSystem::validator_set_size() == 5, 7357000180104);
@@ -48,6 +48,7 @@ script {
 script {
     use 0x1::Vector;
     use 0x1::Stats;
+
     // This is the the epoch boundary.
     fun main(vm: signer) {
         let voters = Vector::empty<address>();
@@ -61,7 +62,7 @@ script {
         let i = 1;
         while (i < 16) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
     }

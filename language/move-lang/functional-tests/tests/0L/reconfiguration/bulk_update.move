@@ -4,9 +4,11 @@
 //! account: carol, 1000000, 0, validator
 //! account: dave, 1000000, 0, validator
 
-// Test to check the current validator list . Then trigger update to the list of validators, then re-run it. 
+// Test to check the current validator list . Then trigger update to the list 
+// of validators, then re-run it. 
 // This test is run with the function passing in the wrong current block on purpose.
-// This avoids an error when a reconfig function happens before the first epoch is completed
+// This avoids an error when a reconfig function happens before the first epoch 
+// is completed.
 
 //! new-transaction
 //! sender: diemroot
@@ -24,7 +26,7 @@ script {
         assert(DiemSystem::is_validator({{carol}}), 73570004);
         assert(DiemSystem::is_validator({{dave}}), 73570005);
 
-        let old_vec = ValidatorUniverse::get_eligible_validators(vm);
+        let old_vec = ValidatorUniverse::get_eligible_validators(&vm);
         assert(Vector::length<address>(&old_vec) == 4, 73570006);
         
         //Create vector of validators and func call
@@ -34,7 +36,7 @@ script {
         Vector::push_back<address>(&mut vec, {{carol}});
         assert(Vector::length<address>(&vec) == 3, 73570007);
 
-        DiemSystem::bulk_update_validators(vm, vec);
+        DiemSystem::bulk_update_validators(&vm, vec);
 
         // Check if updates are done
         assert(DiemSystem::validator_set_size() == 3, 73570008);

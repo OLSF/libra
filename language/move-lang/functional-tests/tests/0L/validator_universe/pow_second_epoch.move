@@ -42,7 +42,7 @@ script {
         let i = 1;
         while (i < 16) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
     }

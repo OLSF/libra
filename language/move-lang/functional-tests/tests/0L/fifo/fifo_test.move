@@ -74,8 +74,7 @@ script {
         assert(j == 10, 1);  
 
         let len = FIFO::len<u64>(& f);
-        assert(len == 0, 1);      
-
+        assert(len == 0, 1);
     }
 }
 // check: EXECUTED

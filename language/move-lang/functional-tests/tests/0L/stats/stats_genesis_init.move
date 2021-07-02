@@ -13,6 +13,7 @@ script {
     fun main(vm: signer){
       // Checks that stats was initialized in genesis for Alice.
 
+      let vm = &vm;
       assert(Stats::node_current_props(vm, {{alice}}) == 0, 7357190201011000);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 7357190201021000);
       assert(Stats::node_current_votes(vm, {{alice}}) == 0, 7357190201031000);
@@ -30,7 +31,6 @@ script {
       assert(Stats::node_current_props(vm, {{bob}}) == 1, 7357190202021000);
       assert(Stats::node_current_votes(vm, {{alice}}) == 2, 7357190202031000);
       assert(Stats::node_current_votes(vm, {{bob}}) == 0, 7357190202041000);
-
     }
 }
 // check: EXECUTED

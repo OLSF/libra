@@ -11,6 +11,7 @@ script {
     use 0x1::Reconfigure;
 
     fun main(vm: signer){
+      let vm = &vm;
       // Check that after a reconfig the counter is reset, and archived in history.
       assert(Stats::node_current_props(vm, {{alice}}) == 0, 7357190201011000);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 7357190201021000);

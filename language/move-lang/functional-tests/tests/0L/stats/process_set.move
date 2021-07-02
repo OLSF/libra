@@ -8,9 +8,9 @@
 script {
     use 0x1::Stats;
     use 0x1::Vector;
-    
 
     fun main(vm: signer){
+      let vm = &vm;
       // Checks that altstats was initialized in genesis for Alice.
       let set = Vector::singleton({{alice}});
       Vector::push_back(&mut set, {{bob}});

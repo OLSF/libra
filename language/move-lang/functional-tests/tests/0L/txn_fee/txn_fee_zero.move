@@ -16,7 +16,7 @@ script {
     use 0x1::MinerState;
     fun main(sender: signer) {
       //NOTE: Alice is Case 1, she validates and mines. Setting up mining.
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
 
     }
 }
@@ -29,7 +29,7 @@ script {
     use 0x1::MinerState;
     fun main(sender: signer) {
       //NOTE: Carol is Case 3, she mines but does not validate. Setting up mining.
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
 
     }
 }
@@ -41,8 +41,7 @@ script {
   // 
   // use 0x1::Subsidy;
   use 0x1::Vector;
-  use 0x1::Stats;
-  
+  use 0x1::Stats;  
   use 0x1::GAS::GAS;
   use 0x1::DiemAccount;
   use 0x1::Cases;
@@ -50,6 +49,7 @@ script {
   fun main(vm: signer) {
     // check the case of a network density of 4 active validators.
 
+    let vm = &vm;
     let validators = Vector::singleton<address>({{alice}});
     Vector::push_back(&mut validators, {{bob}});
 
@@ -84,6 +84,7 @@ script {
     use 0x1::DiemSystem;
 
     fun main(vm: signer) {
+        let vm = &vm;
         let bal = TransactionFee::get_amount_to_distribute(vm);
         assert(bal == 0, 7357190103011000);
 

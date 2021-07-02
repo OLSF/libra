@@ -20,9 +20,10 @@ script {
 
     fun main(sender: signer) {
         // Alice mines (case 1)
-        // "Sender" is the only one that can update her mining stats. Hence this first transaction.
+        // "Sender" is the only one that can update her mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::get_count_in_epoch({{alice}}) == 5, 7357120201011000);
     }
 }
@@ -34,7 +35,7 @@ script {
     use 0x1::MinerState;
     fun main(sender: signer) {
         // Eve mines (case 3)
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::get_count_in_epoch({{eve}}) == 5, 7357120202011000);
     }
 }
@@ -49,6 +50,7 @@ script {
     use 0x1::DiemSystem;
 
     fun main(vm: signer) {
+        let vm = &vm;
         let voters = Vector::singleton<address>({{alice}});
         let i = 1;
         while (i < 15) {

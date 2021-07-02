@@ -26,6 +26,7 @@ script {
   fun main(vm: signer) {
     // check the case of a network density of 4 active validators.
 
+    let vm = &vm;
     let validators = Vector::singleton<address>({{alice}});
     Vector::push_back(&mut validators, {{bob}});
     Vector::push_back(&mut validators, {{carol}});

@@ -28,7 +28,7 @@ script {
 
     fun main(vm: signer) {
         // todo: change name to Mock epochs
-        // MinerState::test_helper_set_epochs(sender, 5);
+        // MinerState::test_helper_set_epochs(&sender, 5);
         let voters = Vector::singleton<address>({{alice}});
         Vector::push_back<address>(&mut voters, {{bob}});
         Vector::push_back<address>(&mut voters, {{carol}});
@@ -36,7 +36,7 @@ script {
         let i = 1;
         while (i < 15) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
         // Carol is still a validator until the next epoch
@@ -67,6 +67,7 @@ script {
 script {
     use 0x1::DiemSystem;
     use 0x1::DiemConfig;
+
     fun main(_account: signer) {
         // We are in a new epoch.
         assert(DiemConfig::get_current_epoch() == 2, 7357180105011000);
@@ -86,7 +87,6 @@ script {
     use 0x1::Vector;
     use 0x1::Stats;
     
-
     fun main(vm: signer) {
         // start a new epoch.
         let voters = Vector::singleton<address>({{alice}});
@@ -95,7 +95,7 @@ script {
         let i = 1;
         while (i < 15) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
     }
@@ -125,9 +125,6 @@ script {
 
         // carol is still not a validator because she has not rejoined. 
         assert(!DiemSystem::is_validator({{carol}}), 7357180107021000);
-
-
-
     }
 }
 //check: EXECUTED
@@ -141,7 +138,7 @@ use 0x1::MinerState;
 // use 0x1::DiemConfig;
 fun main(sender: signer) {
     // Mock some mining so carol can send rejoin tx
-    MinerState::test_helper_mock_mining(sender, 100);
+    MinerState::test_helper_mock_mining(&sender, 100);
 }
 }
 

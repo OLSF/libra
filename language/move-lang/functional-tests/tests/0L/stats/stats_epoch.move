@@ -19,6 +19,7 @@ script {
 
     // Assumes an epoch changed at round 15
     fun main(vm: signer) {
+      let vm = &vm;
       //proposals
       assert(Stats::node_current_props(vm, {{alice}}) == 1, 0);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 0);
@@ -43,6 +44,8 @@ script {
     use 0x1::Stats;
     // This is the the epoch boundary.
     fun main(vm: signer) {
+      let vm = &vm;
+
       assert(Stats::node_current_props(vm, {{alice}}) == 2, 735700001);
       assert(Stats::node_current_props(vm, {{bob}}) == 0, 735700002);
       assert(Stats::node_current_votes(vm, {{alice}}) == 0, 735700003);
@@ -90,6 +93,7 @@ script {
     use 0x1::Stats;
     // use 0x1::Vector;
     fun main(vm: signer) {
+      let vm = &vm;
       // Testing that reconfigure reset the counter for current epoch.
       assert(!Stats::node_above_thresh(vm, {{alice}}, 16, 17), 735700010);
 

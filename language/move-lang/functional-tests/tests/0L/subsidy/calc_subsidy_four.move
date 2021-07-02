@@ -24,6 +24,7 @@ script {
     // check the case of a network density of 4 active validators.
     // assume epoch changes at round 15
 
+    let vm = &vm;
     let validators = Vector::singleton<address>({{alice}});
     Vector::push_back(&mut validators, {{bob}});
     Vector::push_back(&mut validators, {{carol}});
@@ -38,7 +39,6 @@ script {
 
     print(&Subsidy::calculate_subsidy(vm, 0, 15));
     assert(Subsidy::calculate_subsidy(vm, 0, 15) == 296000000, 7357190101021000);
-
-    }
+  }
 }
 // check: EXECUTED

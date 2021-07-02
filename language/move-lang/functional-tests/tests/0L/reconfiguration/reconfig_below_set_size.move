@@ -1,4 +1,5 @@
-// Testing if validator set remains the same if the size of eligible validators falls below 4
+// Testing if validator set remains the same if the size of eligible 
+// validators falls below 4
 
 // ALICE is CASE 1
 //! account: alice, 1000000, 0, validator
@@ -24,9 +25,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::test_helper_get_count({{alice}}) == 5, 7357300101011000);
     }
 }
@@ -37,9 +39,10 @@ script {
     use 0x1::MinerState;
 
     fun main(sender: signer) {
-        // Miner is the only one that can update their mining stats. Hence this first transaction.
+        // Miner is the only one that can update their mining stats. 
+        // Hence this first transaction.
 
-        MinerState::test_helper_mock_mining(sender, 5);
+        MinerState::test_helper_mock_mining(&sender, 5);
         assert(MinerState::test_helper_get_count({{eve}}) == 5, 7357300101011000);
     }
 }
@@ -64,7 +67,7 @@ script {
         let i = 1;
         while (i < 15) {
             // Mock the validator doing work for 15 blocks, and stats being updated.
-            Stats::process_set_votes(vm, &voters);
+            Stats::process_set_votes(&vm, &voters);
             i = i + 1;
         };
 
