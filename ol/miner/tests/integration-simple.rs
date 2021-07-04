@@ -27,10 +27,10 @@ pub fn integration() {
     let mut swarm_cmd = Command::new("cargo");
     swarm_cmd.current_dir("../");
     swarm_cmd.arg("run")
-            .arg("-p").arg("libra-swarm")
+            .arg("-p").arg("diem-swarm")
             .arg("--")
             .arg("-n").arg("1")
-            .arg("--libra-node").arg("../target/debug/libra-node ")
+            .arg("--diem-node").arg("../target/debug/diem-node ")
             .arg("-c").arg("swarm_temp");
     let cmd = swarm_cmd.stdout(Stdio::inherit())
                 .stderr(Stdio::inherit())

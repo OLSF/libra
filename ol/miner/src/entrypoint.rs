@@ -4,8 +4,8 @@ use abscissa_core::{
     Command, command::Usage, Config, Configurable, FrameworkError, 
     Options, Runnable    
 };
-use libra_types::{account_address::AccountAddress, waypoint::Waypoint};
-use libra_global_constants::NODE_HOME;
+use diem_types::{account_address::AccountAddress, waypoint::Waypoint};
+use diem_global_constants::NODE_HOME;
 use reqwest::Url;
 use std::path::PathBuf;
 

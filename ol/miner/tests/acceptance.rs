@@ -19,7 +19,7 @@
 )]
 
 use abscissa_core::testing::prelude::*;
-use libra_types::waypoint::Waypoint;
+use diem_types::waypoint::Waypoint;
 use once_cell::sync::Lazy;
 use std::time::Duration;
 

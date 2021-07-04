@@ -10,7 +10,7 @@ use crate::{
 use byteorder::{LittleEndian, WriteBytesExt};
 use glob::glob;
 use hex::decode;
-use libra_crypto::hash::HashValue;
+use diem_crypto::hash::HashValue;
 use ol_types::block::Block;
 use txs::submit_tx::{TxParams, eval_tx_status};
 use std::{
@@ -202,7 +202,7 @@ fn test_helper_clear_block_dir(blocks_dir: &PathBuf) {
 #[ignore]
 //Not really a test, just a way to generate fixtures.
 fn create_fixtures() {
-    use libra_wallet::WalletLibrary;
+    use diem_wallet::WalletLibrary;
 
     // if no file is found, the block height is 0
     //let blocks_dir = Path::new("./test_blocks");

@@ -4,7 +4,7 @@
 /// Functions for running the VDF.
 use vdf::{VDFParams, WesolowskiVDFParams, VDF};
 use std::env;
-use libra_global_constants::VDF_SECURITY_PARAM;
+use diem_global_constants::VDF_SECURITY_PARAM;
 
 /// Switch settings between production and testing
 pub fn delay_difficulty() -> u64 {

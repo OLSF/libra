@@ -157,6 +157,7 @@ members = [
     # //////// 0L ////////
     "ol/cli",    
     "ol/keys",
+    "ol/miner",
     "ol/txs",
     "ol/types",
     "ol/verifiable_delay/classgroup",

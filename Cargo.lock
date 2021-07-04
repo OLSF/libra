@@ -4600,6 +4600,57 @@ dependencies = [
 ]
 
 [[package]]
+name = "miner"
+version = "0.1.0"
+dependencies = [
+ "abscissa_core",
+ "ajson",
+ "anyhow",
+ "bcs",
+ "byteorder",
+ "classgroup",
+ "cli",
+ "criterion",
+ "diem-config",
+ "diem-crypto",
+ "diem-genesis-tool",
+ "diem-global-constants",
+ "diem-json-rpc-types",
+ "diem-logger",
+ "diem-management",
+ "diem-secure-storage",
+ "diem-transaction-builder",
+ "diem-types",
+ "diem-wallet",
+ "diemdb",
+ "dirs 2.0.2",
+ "glob",
+ "gumdrop",
+ "hex 0.4.3",
+ "machine-ip",
+ "move-core-types",
+ "ol",
+ "ol-fixtures",
+ "ol-keys",
+ "ol-types",
+ "once_cell",
+ "regex",
+ "reqwest 0.10.10",
+ "rpassword",
+ "rustyline 6.3.0",
+ "serde",
+ "serde_json",
+ "storage-interface",
+ "thiserror",
+ "toml",
+ "txs",
+ "url",
+ "vdf",
+ "vm-genesis",
+ "wait-timeout",
+]
+
+[[package]]
 name = "miniz_oxide"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
