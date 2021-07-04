@@ -158,6 +158,7 @@ members = [
     "ol/cli",    
     "ol/keys",
     "ol/miner",
+    "ol/onboard",
     "ol/txs",
     "ol/types",
     "ol/verifiable_delay/classgroup",
@@ -219,3 +220,10 @@ debug = true
 # Build guppy in opt mode so that x commands are faster.
 [profile.dev.package.guppy]
 opt-level = 3
+
+[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked" # Requires rustc 1.51
+lto = false
+incremental = true
