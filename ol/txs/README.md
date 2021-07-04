@@ -1,6 +1,16 @@
 
 # Txs App
 
+#### Helpers  
+
+```
+// Show help for txs flags
+cargo r -p txs foo  // todo: this is a workaround, what is the correct way?
+
+// Show help for a subcommand
+cargo r -p txs -- help create-account
+```
+
 ## Implemented Commands:
 
 ```
@@ -61,15 +71,6 @@ cargo r -p txs -- -s ~/libra/swarm_temp -u "http://localhost:39513/" -w "0:5e65a
 
 - Get and override `url` and/or `waypoint` from command line - as a last step 
 
-#### Helpers  
-
-```
-// Show help for txs flags
-cargo r -p txs foo  // todo: this is a workaround, what is the correct way?
-
-// Show help for a subcommand
-cargo r -p txs -- help create-account
-```
 
 ## Notes
 
