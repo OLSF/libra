@@ -1,0 +1,12 @@
+[package]
+name = "ol-util"
+version = "0.1.0"
+authors = [""]
+edition = "2018"
+
+[dependencies]
+diem-global-constants = { path = "../../config/global-constants" }
+dirs = "2.0.2"
+regex = "1"
+chrono = "0.4"
+fs_extra = "1"

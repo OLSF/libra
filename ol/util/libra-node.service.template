@@ -1,0 +1,18 @@
+[Unit]
+Description=Libra Node Service
+
+[Service]
+LimitNOFILE=65536
+WorkingDirectory=/root/.0L
+ExecStart=/usr/local/bin/libra-node --config /root/.0L/node.yaml
+
+Restart=always
+RestartSec=10s
+
+# Make sure you CREATE the directory and file for your node.log
+StandardOutput=file:/root/logs/node.log
+StandardError=file:/root/logs/node.log
+
+[Install]
+WantedBy=multi-user.target
+Alias=libra-node.service
