@@ -4,11 +4,15 @@
 #### Helpers  
 
 ```
-// Show flags for txs app 
-cargo r -p txs -- h  // todo: this is a workaround, what is the correct way?
+// Show txs subcommands 
+cargo r -p txs -- help
 
 // Show help for a subcommand e.g. create-account
 cargo r -p txs -- help create-account
+
+// Show flags/inputs for txs app 
+cargo r -p txs -- h  // todo: this is a workaround, what is the correct way?
+
 ```
 
 ## Implemented Commands:
