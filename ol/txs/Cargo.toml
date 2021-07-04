@@ -7,8 +7,10 @@ edition = "2018"
 [dependencies]
 ajson = "0.2.3"
 anyhow = "1.0.31"
+bcs = "0.1.2"
 byteorder = "1"
 dirs = "2.0.2"
+dialoguer = "0.8.0"
 glob = "0.3"
 gumdrop = "0.7"
 hex = "0.4"
@@ -22,33 +24,28 @@ toml = "0.5.6"
 wait-timeout = "0.2.0"
 
 classgroup = { path = "../../ol/verifiable_delay/classgroup", version = "^0.1.0" }
-cli = { path = "../../testsuite/cli/", version = "0.1.0" }
-compiled-stdlib = { path = "../../language/stdlib/compiled", version = "0.1.0" }
-ol-keys = { path = "../keys/", version = "0.1.0" }
-lcs = { path = "../../common/lcs", version = "0.1.0", package = "libra-canonical-serialization" }
-libra-config = { path = "../../config/", version = "0.1.0" }
-libra-crypto = { path = "../../crypto/crypto", version = "0.1.0" }
-libra-genesis-tool = { path = "../../config/management/genesis", version = "0.1.0" }
-libra-global-constants = { path = "../../config/global-constants", version = "0.1.0"}
-libra-json-rpc-types = { path = "../../json-rpc/types", version = "0.1.0"} 
-libra-logger = { path = "../../common/logger", version = "0.1.0" }
-libra-management = { path = "../../config/management", version = "0.1.0" }
-libra-network-address = { path = "../../network/network-address", version = "0.1.0" }
-libra-types = { path = "../../types/", version = "0.1.0" }
-libra-wallet = { path = "../../testsuite/cli/libra-wallet", version = "0.1.0" }
-libradb = { path = "../../storage/libradb", version="0.1.0"}
-move-core-types={path="../../language/move-core/types", version="0.1.0"}
-reqwest = { version = "0.10.6", features = ["blocking", "json"], default_features = false }
-stdlib = { path = "../../language/stdlib", version = "0.1.0" }
-storage-interface= {path = "../../storage/storage-interface", version="0.1.0"}
-transaction-builder = { path = "../../language/transaction-builder", version = "0.1.0"}
-vdf = { path = "../../ol/verifiable_delay/vdf", version = "^0.1.0" }
-vm-genesis={path="../../language/tools/vm-genesis", version="0.1.0"}
+cli = { path = "../../testsuite/cli/" }
+diem-config = { path = "../../config/" }
+diem-crypto = { path = "../../crypto/crypto" }
+diem-genesis-tool = { path = "../../config/management/genesis" }
+diem-global-constants = { path = "../../config/global-constants"}
+diem-json-rpc-types = { path = "../../json-rpc/types" } 
+diem-logger = { path = "../../common/logger" }
+diem-management = { path = "../../config/management" }
+diem-secure-storage = { path = "../../secure/storage" }
+diem-types = { path = "../../types/" }
+diem-wallet = { path = "../../testsuite/cli/diem-wallet" }
+diemdb = { path = "../../storage/diemdb"}
+diem-transaction-builder = { path = "../../sdk/transaction-builder" }
+move-core-types={path="../../language/move-core/types"}
 ol = {path = "../cli"}
-ol-types = {path = "../../ol/types"}
 ol-fixtures = {path = "../../ol/fixtures"}
-libra-secure-storage = { path = "../../secure/storage", version = "0.1.0" }
-dialoguer = "0.8.0"
+ol-keys = { path = "../keys/", version = "0.1.0" }
+ol-types = {path = "../../ol/types"}
+reqwest = { version = "0.10.6", features = ["blocking", "json"], default_features = false }
+storage-interface= {path = "../../storage/storage-interface"}
+vdf = { path = "../../ol/verifiable_delay/vdf", version = "^0.1.0" }
+vm-genesis={path="../../language/tools/vm-genesis"}
 
 [dependencies.abscissa_core]
 version = "0.5.2"

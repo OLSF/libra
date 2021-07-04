@@ -44,6 +44,6 @@ impl Runnable for OnboardCmd {
     }
 }
 
-// pub fn advance(client: LibraClient, trigger_actions: bool, cfg) {
+// pub fn advance(client: DiemClient, trigger_actions: bool, cfg) {
 
 // }

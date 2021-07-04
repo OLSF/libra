@@ -1,8 +1,8 @@
 //! `sign tx`
 
-use libra_types::{
+use diem_types::{
   chain_id::ChainId,
-  transaction::{helpers::create_user_txn, Script, SignedTransaction, TransactionPayload},
+  transaction::{helpers::create_user_txn, SignedTransaction, TransactionPayload},
 };
 
 use crate::submit_tx::TxParams;
@@ -10,7 +10,7 @@ use anyhow::Error;
 
 /// sign a raw transaction script, and return a SignedTransaction
 pub fn sign_tx(
-  script: &Script,
+  script: TransactionPayload,
   tx_params: &TxParams,
   sequence_number: u64,
   chain_id: ChainId,
@@ -18,7 +18,7 @@ pub fn sign_tx(
   // sign the transaction script
   create_user_txn(
     &tx_params.keypair,
-    TransactionPayload::Script(script.to_owned()),
+    script,
     tx_params.signer_address,
     sequence_number,
     tx_params.tx_cost.max_gas_unit_for_tx,

@@ -157,10 +157,11 @@ members = [
     # //////// 0L ////////
     "ol/cli",    
     "ol/keys",
-    "ol/types",    
+    "ol/txs",
+    "ol/types",
     "ol/verifiable_delay/classgroup",
     "ol/verifiable_delay/vdf",
-    "ol/verifiable_delay/vdf-cli",    
+    "ol/verifiable_delay/vdf-cli", 
 ]
 
 # NOTE: default-members is the complete list of binaries that form the "production Diem codebase". These members should

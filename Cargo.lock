@@ -8549,6 +8549,55 @@ dependencies = [
 ]
 
 [[package]]
+name = "txs"
+version = "0.1.0"
+dependencies = [
+ "abscissa_core",
+ "ajson",
+ "anyhow",
+ "bcs",
+ "byteorder",
+ "classgroup",
+ "cli",
+ "criterion",
+ "dialoguer",
+ "diem-config",
+ "diem-crypto",
+ "diem-genesis-tool",
+ "diem-global-constants",
+ "diem-json-rpc-types",
+ "diem-logger",
+ "diem-management",
+ "diem-secure-storage",
+ "diem-transaction-builder",
+ "diem-types",
+ "diem-wallet",
+ "diemdb",
+ "dirs 2.0.2",
+ "glob",
+ "gumdrop",
+ "hex 0.4.3",
+ "move-core-types",
+ "ol",
+ "ol-fixtures",
+ "ol-keys",
+ "ol-types",
+ "once_cell",
+ "regex",
+ "reqwest 0.10.10",
+ "rpassword",
+ "rustyline 6.3.0",
+ "serde",
+ "serde_json",
+ "storage-interface",
+ "thiserror",
+ "toml",
+ "vdf",
+ "vm-genesis",
+ "wait-timeout",
+]
+
+[[package]]
 name = "typed-arena"
 version = "2.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"

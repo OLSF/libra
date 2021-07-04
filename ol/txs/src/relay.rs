@@ -8,9 +8,9 @@ use crate::{
   submit_tx::{tx_params_wrapper, wait_for_tx, TxParams},
 };
 use anyhow::Error;
-use cli::libra_client::LibraClient;
-use libra_json_rpc_types::views::TransactionView;
-use libra_types::transaction::SignedTransaction;
+use cli::diem_client::DiemClient;
+use diem_json_rpc_types::views::TransactionView;
+use diem_types::transaction::SignedTransaction;
 use ol_types::config::TxType;
 
 /// submit a previously signed tx, perhaps to be submitted by a different account than the signer account.
@@ -19,18 +19,18 @@ pub fn relay_tx(
   txn: SignedTransaction,
   // original_signer: AccountAddress,
 ) -> Result<TransactionView, Error> {
-  let mut client = LibraClient::new(tx_params.url.to_owned(), tx_params.waypoint).unwrap();
+  let mut client = DiemClient::new(tx_params.url.to_owned(), tx_params.waypoint).unwrap();
 
   let original_signer = txn.sender();
   // let chain_id = ChainId::new(client.get_metadata().unwrap().chain_id);
-  let (account_state, _) = client.get_account(original_signer, true).unwrap();
+  let account_state = client.get_account(&original_signer).unwrap();
 
   let original_signer_sequence_number = match account_state {
     Some(av) => av.sequence_number,
     None => 0,
   };
-  // Submit the transaction with libra_client
-  match client.submit_transaction(None, txn) {
+  // Submit the transaction with diem_client
+  match client.submit_transaction(&txn) {
     Ok(_) => {
       match wait_for_tx(
         original_signer,
@@ -54,7 +54,7 @@ pub fn relay_batch(batch_tx: &Vec<SignedTransaction>, tx_params: &TxParams) -> R
           Ok(_) => {},
           Err(e) => {
             let txt = format!("Transaction in batch failed unexpectedly. Other transactions in batch may have executed! Aborting.\n Tx: {:?}\n Error:\n {:?}", tx, e);
-            panic!(txt);
+            panic!("{}", txt);
           }
           
       }

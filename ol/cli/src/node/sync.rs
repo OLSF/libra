@@ -80,7 +80,7 @@ impl Node {
 //   }
 }
 
-// fn compare_client_version(local: &mut LibraClient, remote: &mut LibraClient) -> Result<i64, Error> {
+// fn compare_client_version(local: &mut DiemClient, remote: &mut DiemClient) -> Result<i64, Error> {
 //   let local_meta = local.get_metadata()?;
 //   let remote_meta = remote.get_metadata()?;
 //   Ok(remote_meta.version as i64 - local_meta.version as i64)

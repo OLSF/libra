@@ -3,8 +3,13 @@
 #![allow(clippy::never_loop)]
 
 use abscissa_core::{Command, Options, Runnable};
-use libra_types::transaction::{Script, SignedTransaction};
-use crate::{entrypoint, sign_tx::sign_tx, submit_tx::{tx_params_wrapper, batch_wrapper, TxParams}};
+use diem_types::transaction::{SignedTransaction, TransactionPayload};
+use diem_transaction_builder::stdlib as transaction_builder;
+use crate::{
+  entrypoint, 
+  sign_tx::sign_tx, 
+  submit_tx::{tx_params_wrapper, batch_wrapper, TxParams}
+};
 use dialoguer::Confirm;
 use std::path::PathBuf;
 use ol_types::{autopay::PayInstruction, config::{TxType, IS_CI}};
@@ -28,13 +33,16 @@ impl Runnable for AutopayBatchCmd {
         println!("The current epoch is: {}", epoch);
         let instructions = PayInstruction::parse_autopay_instructions(&self.autopay_batch_file, Some(epoch)).unwrap();
         let scripts = process_instructions(instructions, &epoch);
-        batch_wrapper(scripts, &tx_params, entry_args.no_send, entry_args.save_path)
 
+        batch_wrapper(scripts, &tx_params, entry_args.no_send, entry_args.save_path)
     }
 }
 
 /// Process autopay instructions into scripts
-pub fn process_instructions(instructions: Vec<PayInstruction>, starting_epoch: &u64) -> Vec<Script> {
+pub fn process_instructions(
+  instructions: Vec<PayInstruction>, 
+  starting_epoch: &u64
+) -> Vec<TransactionPayload> {
     // TODO: Check instruction IDs are sequential.
     instructions.into_iter().filter_map(|i| {
         assert!(i.type_move.unwrap() <= 3);
@@ -97,7 +105,7 @@ pub fn process_instructions(instructions: Vec<PayInstruction>, starting_epoch: &
         }            
     })
     .map(|i| {
-      transaction_builder::encode_autopay_create_instruction_script(
+      transaction_builder::encode_autopay_create_instruction_script_function(
         i.uid, 
         i.type_move.unwrap(), 
         i.destination, 
@@ -109,21 +117,25 @@ pub fn process_instructions(instructions: Vec<PayInstruction>, starting_epoch: &
 }
  
 /// return a vec of signed transactions
-pub fn sign_instructions(scripts: Vec<Script>, starting_sequence_num: u64, tx_params: &TxParams) -> Vec<SignedTransaction>{
+pub fn sign_instructions(
+  scripts: Vec<TransactionPayload>, 
+  starting_sequence_num: u64, 
+  tx_params: &TxParams
+) -> Vec<SignedTransaction> {
   scripts.into_iter()
-  .enumerate()
-  .map(|(i, s)| {
-    let seq = i as u64 + starting_sequence_num;
-    sign_tx(&s, tx_params, seq, tx_params.chain_id).unwrap()
+    .enumerate()
+    .map(|(i, s)| {
+      let seq = i as u64 + starting_sequence_num;
+      sign_tx(s, tx_params, seq, tx_params.chain_id).unwrap()
     })
-  .collect()
+    .collect()
 }
 
 #[test]
 fn test_instruction_script_match() {
-  use libra_types::account_address::AccountAddress;
+  use diem_types::account_address::AccountAddress;
   use ol_types::autopay::InstructionType;
-  let script = transaction_builder::encode_autopay_create_instruction_script(
+  let script = transaction_builder::encode_autopay_create_instruction_script_function(
     1, 
     0, 
     AccountAddress::ZERO, 

@@ -5,7 +5,8 @@
 use abscissa_core::{Command, Options, Runnable};
 use ol_types::config::TxType;
 use crate::{entrypoint, prelude::app_config, submit_tx::{tx_params_wrapper, maybe_submit}};
-use libra_types::{transaction::{Script}};
+use diem_types::transaction::TransactionPayload;
+use diem_transaction_builder::stdlib as transaction_builder;
 use std::{fs, io::prelude::*, path::PathBuf};
 
 /// `OracleUpgrade` subcommand
@@ -15,14 +16,14 @@ pub struct OracleUpgradeCmd {
     upgrade_file_path: Option<PathBuf>,
 }
 
-pub fn oracle_tx_script(upgrade_file_path: &PathBuf) -> Script {
+pub fn oracle_tx_script_function(upgrade_file_path: &PathBuf) -> TransactionPayload {
     let mut file = fs::File::open(upgrade_file_path)
         .expect("file should open read only");
     let mut buffer = Vec::new();
     file.read_to_end(&mut buffer).expect("failed to read the file");
 
     let id = 1; // upgrade is oracle #1
-    transaction_builder::encode_ol_oracle_tx_script(id, buffer)
+    transaction_builder::encode_ol_oracle_tx_script_function(id, buffer)
 }
 
 impl Runnable for OracleUpgradeCmd {
@@ -38,7 +39,7 @@ impl Runnable for OracleUpgradeCmd {
         };
         
         maybe_submit(
-          oracle_tx_script(&path),
+          oracle_tx_script_function(&path),
           &tx_params,
           entry_args.no_send,
           entry_args.save_path

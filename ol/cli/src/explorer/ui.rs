@@ -54,11 +54,11 @@ where
     } else {
         "web monitor is NOT SERVING"
     };
-    let mut status_db_bootstrapped = "LibraDB is NOT BOOTSTRAPPED";
+    let mut status_db_bootstrapped = "DiemDB is NOT BOOTSTRAPPED";
     
     let status_file = if cached_vitals.items.db_files_exist {
         if cached_vitals.items.db_restored {
-            status_db_bootstrapped = "LibraDB is bootstrapped."
+            status_db_bootstrapped = "DiemDB is bootstrapped."
         }
         "DB files exist".to_owned()
     } else {
