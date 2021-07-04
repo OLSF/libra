@@ -4,10 +4,10 @@
 #### Helpers  
 
 ```
-// Show help for txs flags
-cargo r -p txs foo  // todo: this is a workaround, what is the correct way?
+// Show flags for txs app 
+cargo r -p txs -- h  // todo: this is a workaround, what is the correct way?
 
-// Show help for a subcommand
+// Show help for a subcommand e.g. create-account
 cargo r -p txs -- help create-account
 ```
 
