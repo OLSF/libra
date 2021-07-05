@@ -7,7 +7,6 @@ use std::fs;
 use crate::{commands::wizard_val_cmd::write_account_json, prelude::app_config};
 use super::wizard_val_cmd::get_autopay_batch;
 use abscissa_core::{Command, Options, Runnable, status_info, time::{DateTime, Utc}};
-// use diem_genesis_tool::keyscheme::KeyScheme;
 use ol_keys::wallet;
 use ol::config::AppCfg;
 use ol_types::autopay::{InstructionType, PayInstruction, write_batch_file};

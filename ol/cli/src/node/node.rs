@@ -3,18 +3,13 @@
 use crate::{cache::Vitals, check::items::Items, config::AppCfg, mgmt::management::NodeMode};
 use anyhow::Error;
 use cli::diem_client::DiemClient;
-// use diemdb::DiemDB;
 use std::{process::Command, str};
 use sysinfo::SystemExt;
 use sysinfo::{ProcessExt, ProcessStatus};
-
 use diem_json_rpc_client::views::MinerStateResourceView;
 use diem_types::waypoint::Waypoint;
 use diem_types::{account_address::AccountAddress, account_state::AccountState};
-// use storage_interface::DbReader;
-
 use super::{account::OwnerAccountView, states::HostState};
-// use std::path::PathBuf;
 
 /// name of key in kv store for sync
 pub const SYNC_KEY: &str = "is_synced";

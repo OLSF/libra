@@ -3,7 +3,6 @@
 #![allow(clippy::never_loop)]
 
 use ol_types::{block::Block, config::AppCfg};
-// use diem_genesis_tool::keyscheme::KeyScheme;
 use ol_keys::scheme::KeyScheme;
 
 use diem_types::transaction::SignedTransaction;

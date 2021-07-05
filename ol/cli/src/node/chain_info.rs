@@ -1,13 +1,10 @@
 //! `chain_info`
-// use chrono::Utc;
 
 use diem_json_rpc_client::views::OracleResourceView;
 use diem_types::{
   account_address::AccountAddress, waypoint::Waypoint,
 };
 use serde::{Deserialize, Serialize};
-// use std::convert::TryFrom;
-
 use super::node::Node;
 
 /// name of chain info key for db
