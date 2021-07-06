@@ -61,6 +61,7 @@ pub enum Method {
     GetEvents,
     GetCurrencies,
     GetNetworkStatus,
+    GetMinerStateView, /////// 0L /////////
 
     //
     // Experimental APIs

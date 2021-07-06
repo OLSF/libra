@@ -19,6 +19,8 @@ pub enum MethodRequest {
     GetEvents(String, u64, u64),
     GetCurrencies([(); 0]),
     GetNetworkStatus([(); 0]),
+    //////// 0L ////////
+    GetMinerStateView((AccountAddress,)),
 
     //
     // Experimental APIs
@@ -46,6 +48,11 @@ impl MethodRequest {
     pub fn get_account(address: AccountAddress) -> Self {
         Self::GetAccount((address,))
     }
+
+    /////// 0L /////////
+    pub fn get_miner_state(address: AccountAddress) -> Self {
+        Self::GetMinerStateView((address,))
+    }    
 
     pub fn get_transactions(start_seq: u64, limit: u64, include_events: bool) -> Self {
         Self::GetTransactions(start_seq, limit, include_events)
@@ -118,6 +125,8 @@ impl MethodRequest {
             MethodRequest::GetAccountStateWithProof(_, _, _) => Method::GetAccountStateWithProof,
             MethodRequest::GetTransactionsWithProofs(_, _) => Method::GetTransactionsWithProofs,
             MethodRequest::GetEventsWithProofs(_, _, _) => Method::GetEventsWithProofs,
+            /////// 0L /////////
+            MethodRequest::GetMinerStateView(_) => Method::GetMinerStateView,
         }
     }
 }

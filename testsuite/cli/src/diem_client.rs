@@ -2,7 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 use anyhow::{bail, ensure, Result};
-use diem_client::{views, BlockingClient, Response, WaitForTransactionError};
+use diem_client::{
+    views, 
+    views::MinerStateResourceView, 
+    BlockingClient, 
+    Response, 
+    WaitForTransactionError
+};
 use diem_logger::prelude::info;
 use diem_types::{
     access_path::AccessPath,
@@ -72,6 +78,18 @@ impl DiemClient {
             .map_err(Into::into)
             .map(Response::into_inner)
     }
+
+    ///////// 0L ////////
+    ///Get miner states for an address.
+    pub fn get_miner_state(
+        &self,
+        account: &AccountAddress,
+    ) -> Result<Option<MinerStateResourceView>> {
+        self.client
+            .get_miner_state(*account)
+            .map_err(Into::into)
+            .map(Response::into_inner)
+    }    
 
     pub fn get_account_state_blob(
         &self,

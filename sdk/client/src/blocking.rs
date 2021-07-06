@@ -10,8 +10,8 @@ use super::{
 use crate::{
     error::WaitForTransactionError,
     views::{
-        AccountStateWithProofView, AccountView, CurrencyInfoView, EventView, MetadataView,
-        StateProofView, TransactionView,
+        AccountStateWithProofView, AccountView, CurrencyInfoView, EventView, 
+        MetadataView, MinerStateResourceView, StateProofView, TransactionView,
     },
     Error, Result, Retry, State,
 };
@@ -133,6 +133,12 @@ impl BlockingClient {
     pub fn get_account(&self, address: AccountAddress) -> Result<Response<Option<AccountView>>> {
         self.send(MethodRequest::get_account(address))
     }
+
+    /////// 0L /////////
+    pub fn get_miner_state(&self, address: AccountAddress) 
+    -> Result<Response<Option<MinerStateResourceView>>> {
+        self.send(MethodRequest::get_miner_state(address))
+    }    
 
     pub fn get_transactions(
         &self,
