@@ -20,7 +20,7 @@ address 0x1 {
     use 0x1::VDF;
     use 0x1::Vector;
 
-    struct MinerList has key { // 0L todo
+    struct MinerList has key {
       list: vector<address>
     }
 
@@ -32,7 +32,7 @@ address 0x1 {
     }
 
     // Struct to encapsulate information about the state of a miner
-    struct MinerProofHistory has key { // 0L todo
+    struct MinerProofHistory has key {
         previous_proof_hash: vector<u8>,
         verified_tower_height: u64, // user's latest verified_tower_height
         latest_epoch_mining: u64,

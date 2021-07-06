@@ -8,7 +8,7 @@ module TrustedAccounts {
     use 0x1::Signer;
     use 0x1::Vector;
 
-    struct Trusted has key { // 0L todo
+    struct Trusted has key {
       my_trusted_accounts: vector<address>,
       follow_operators_trusting_accounts: vector<address>
     }

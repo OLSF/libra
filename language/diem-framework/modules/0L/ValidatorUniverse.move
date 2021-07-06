@@ -16,11 +16,11 @@ address 0x1 {
     use 0x1::Vector;
     
     // resource for tracking the universe of accounts that have submitted a mined proof correctly, with the epoch number.
-    struct ValidatorUniverse has key { // 0L todo
+    struct ValidatorUniverse has key {
         validators: vector<address>
     }
 
-    struct JailedBit has key { // 0L todo
+    struct JailedBit has key {
         is_jailed: bool
     }
 

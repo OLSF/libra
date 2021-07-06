@@ -11,7 +11,7 @@ module Testnet {
     use 0x1::Errors;
     use 0x1::Signer;
 
-    struct IsTestnet has key { } // 0L todo
+    struct IsTestnet has key { }
 
     public fun initialize(account: &signer) {
         assert(Signer::address_of(account) == CoreAddresses::DIEM_ROOT_ADDRESS(), Errors::requires_role(200201));
@@ -39,7 +39,7 @@ module StagingNet {
     use 0x1::Errors;
     use 0x1::Signer;
 
-    struct IsStagingNet has key { } // 0L todo
+    struct IsStagingNet has key { }
 
     public fun initialize(account: &signer) {
         assert(Signer::address_of(account) == CoreAddresses::DIEM_ROOT_ADDRESS(), Errors::requires_role(190301));

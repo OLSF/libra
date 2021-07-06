@@ -13,7 +13,7 @@ module Stats{
     use 0x1::Testnet;
     use 0x1::Vector;    
 
-    struct SetData has copy, drop, store { // 0L todo
+    struct SetData has copy, drop, store {
       addr: vector<address>,
       prop_count: vector<u64>,
       vote_count: vector<u64>,
@@ -21,7 +21,7 @@ module Stats{
       total_props: u64,
     }
 
-    struct ValStats has copy, drop, key { // 0L todo
+    struct ValStats has copy, drop, key {
       history: vector<SetData>,
       current: SetData
     }

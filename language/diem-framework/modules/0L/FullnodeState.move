@@ -8,7 +8,7 @@ module FullnodeState {
   use 0x1::Signer;
   use 0x1::Testnet::is_testnet;
   
-  struct FullnodeCounter has key { // 0L todo
+  struct FullnodeCounter has key {
     proofs_submitted_in_epoch: u64,
     proofs_paid_in_epoch: u64,
     subsidy_in_epoch: u64,
