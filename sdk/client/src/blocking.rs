@@ -11,7 +11,8 @@ use crate::{
     error::WaitForTransactionError,
     views::{
         AccountStateWithProofView, AccountView, CurrencyInfoView, EventView, 
-        MetadataView, MinerStateResourceView, StateProofView, TransactionView,
+        MetadataView, MinerStateResourceView, OracleUpgradeStateView, 
+        StateProofView, TransactionView,
     },
     Error, Result, Retry, State,
 };
@@ -138,7 +139,13 @@ impl BlockingClient {
     pub fn get_miner_state(&self, address: AccountAddress) 
     -> Result<Response<Option<MinerStateResourceView>>> {
         self.send(MethodRequest::get_miner_state(address))
-    }    
+    }
+
+    /////// 0L /////////
+    pub fn get_oracle_upgrade_state(&self) 
+    -> Result<Response<Option<OracleUpgradeStateView>>> {
+        self.send(MethodRequest::get_oracle_upgrade_state())
+    }
 
     pub fn get_transactions(
         &self,

@@ -19,10 +19,8 @@ machine-ip = "0.2.1"
 rustyline = "6.2.0"
 ajson = "0.2.3"
 diem-crypto = { path = "../../crypto/crypto/" }
-# libra-network-address = { path = "../../network/network-address", version = "0.1.0" }
 diem-genesis-tool = {path = "../../config/management/genesis", version = "0.1.0", features = ["testing"] }
 toml = "0.5.6"
-# lcs = { path = "../../common/lcs", version = "0.1.0", package = "libra-canonical-serialization" }
 anyhow = "1.0.33"
 url = { version = "^2.1", features = ["serde"]}
 dialoguer = "0.8.0"

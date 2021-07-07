@@ -888,21 +888,21 @@ impl TryFrom<MinerStateResource> for MinerStateResourceView {
     }
 }
 
+//////// 0L ////////
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
-pub struct OracleResourceView {
+pub struct OracleUpgradeStateView {
     pub upgrade: UpgradeOracle,
     // pub votes: Vec<Vote>,
     // pub consensus: VoteCount,
 }
 
-impl TryFrom<OracleResource> for OracleResourceView {
+impl TryFrom<OracleResource> for OracleUpgradeStateView {
     type Error = Error;
-    fn try_from(state: OracleResource) -> Result<OracleResourceView, Error> {
-      Ok(OracleResourceView {
+    fn try_from(state: OracleResource) -> Result<OracleUpgradeStateView, Error> {
+      Ok(OracleUpgradeStateView {
             upgrade: state.upgrade,
             // votes: compressed.votes.clone(),
             // consensus: compressed.consensus.clone(),
         })
     }
 }
-//////// 0L end ////////

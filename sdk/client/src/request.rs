@@ -21,6 +21,7 @@ pub enum MethodRequest {
     GetNetworkStatus([(); 0]),
     //////// 0L ////////
     GetMinerStateView((AccountAddress,)),
+    GetOracleUpgradeStateView(),
 
     //
     // Experimental APIs
@@ -52,7 +53,12 @@ impl MethodRequest {
     /////// 0L /////////
     pub fn get_miner_state(address: AccountAddress) -> Self {
         Self::GetMinerStateView((address,))
-    }    
+    }
+
+    /////// 0L /////////
+    pub fn get_oracle_upgrade_state() -> Self {
+        Self::GetOracleUpgradeStateView()
+    }
 
     pub fn get_transactions(start_seq: u64, limit: u64, include_events: bool) -> Self {
         Self::GetTransactions(start_seq, limit, include_events)
@@ -127,6 +133,7 @@ impl MethodRequest {
             MethodRequest::GetEventsWithProofs(_, _, _) => Method::GetEventsWithProofs,
             /////// 0L /////////
             MethodRequest::GetMinerStateView(_) => Method::GetMinerStateView,
+            MethodRequest::GetOracleUpgradeStateView() => Method::GetOracleUpgradeStateView,
         }
     }
 }

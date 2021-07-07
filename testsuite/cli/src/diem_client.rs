@@ -4,7 +4,7 @@
 use anyhow::{bail, ensure, Result};
 use diem_client::{
     views, 
-    views::MinerStateResourceView, 
+    views::{MinerStateResourceView, OracleUpgradeStateView},
     BlockingClient, 
     Response, 
     WaitForTransactionError
@@ -80,7 +80,7 @@ impl DiemClient {
     }
 
     ///////// 0L ////////
-    ///Get miner states for an address.
+    /// Get miner states for an address.
     pub fn get_miner_state(
         &self,
         account: &AccountAddress,
@@ -89,7 +89,16 @@ impl DiemClient {
             .get_miner_state(*account)
             .map_err(Into::into)
             .map(Response::into_inner)
-    }    
+    }
+
+    ///////// 0L ////////
+    /// Get state for oracle upgrade
+    pub fn get_oracle_upgrade_state(&self) -> Result<Option<OracleUpgradeStateView>> {
+        self.client
+            .get_oracle_upgrade_state()
+            .map_err(Into::into)
+            .map(Response::into_inner)
+    }
 
     pub fn get_account_state_blob(
         &self,
@@ -196,6 +205,27 @@ impl DiemClient {
             TrustedStateChange::NoChange => (),
         }
         Ok(())
+    }
+
+    //////// 0L ////////
+    /// generate latest waypoint
+    pub fn waypoint(&self)->Option<Waypoint> {
+        let latest_epoch_change_li = match self.latest_epoch_change_li() {
+            Some(li) => li,
+            None => {
+                // println!("No epoch change LedgerInfo found");
+                return None;
+            }
+        };
+
+        match Waypoint::new_epoch_boundary(latest_epoch_change_li.ledger_info()) {
+          Ok(waypoint) => Some(waypoint),  
+          Err(_) => {
+                // println!("Failed to generate a waypoint: {}", e);
+                None
+            },
+            
+        }
     }
 
     /// LedgerInfo corresponding to the latest epoch change.

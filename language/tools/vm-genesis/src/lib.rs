@@ -336,7 +336,7 @@ fn create_and_initialize_main_accounts(
     );
 }
 
-// 0L todo
+// 0L todo: Unused fn
 fn _create_and_initialize_testnet_minting( //////// 0L ////////
     session: &mut Session<StateViewCache>,
     log_context: &impl LogContext,
