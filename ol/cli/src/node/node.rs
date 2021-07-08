@@ -3,6 +3,7 @@
 use crate::{cache::Vitals, check::items::Items, config::AppCfg, mgmt::management::NodeMode};
 use anyhow::Error;
 use cli::diem_client::DiemClient;
+// use diemdb::DiemDB;
 use std::{process::Command, str};
 use sysinfo::SystemExt;
 use sysinfo::{ProcessExt, ProcessStatus};
@@ -84,11 +85,10 @@ impl Node {
             Ok(account_state) => Some(account_state),
             Err(_) => None,
         };
-        // 0L todo
-        // self.miner_state = match self.client.get_miner_state(self.conf.profile.account) {
-        //     Ok(state) => state,
-        //     _ => None,
-        // };
+        self.miner_state = match self.client.get_miner_state(&self.conf.profile.account) {
+            Ok(state) => state,
+            _ => None,
+        };
         self
     }
 
@@ -121,13 +121,11 @@ impl Node {
     }
 
     /// Get waypoint from client
-    pub fn waypoint(&mut self) -> Option<Waypoint> {
-        // 0L todo
-        // match self.client.get_state_proof() {
-        //     Ok(_t) => self.client.waypoint(),
-        //     Err(_) => self.conf.get_waypoint(None),
-        // }
-        None    
+    pub fn waypoint(&mut self) -> Option<Waypoint> {        
+        match self.client.update_and_verify_state_proof() {
+            Ok(_t) => self.client.waypoint(),
+            Err(_) => self.conf.get_waypoint(None),
+        }        
     }
 
     /// is validator jailed
@@ -166,29 +164,30 @@ impl Node {
 
     /// the owner and operator accounts exist on chain
     pub fn accounts_exist_on_chain(&mut self) -> bool {
-        let _addr = self.conf.profile.account;
+        let addr = self.conf.profile.account;
         // dbg!(&addr);
 
-        // 0L todo
-        // let account = self.client.get_account(addr, false);
-        // match account {
-        //     Ok((opt, _)) => match opt {
-        //         Some(_) => true,
-        //         None => false,
-        //     },
-        //     Err(_) => false,
-        // }
-        false
+        let account = self.client.get_account(&addr);
+        match account {
+            Ok(opt) => match opt {
+                Some(_) => true,
+                None => false,
+            },
+            Err(_) => false,
+        }
     }
 
     /// database is initialized, Please do NOT invoke this function frequently
     pub fn db_bootstrapped(&mut self) -> bool {
         let _file = self.conf.workspace.db_path.clone();
-        
-        // 0L todo
+
+        // 0L todo: New DiemDB::open() requires RocksDB options
+        // https://github.com/OLSF/libra/issues/530
+        //
         // if file.exists() {
-        //     // When not committing, we open the DB as secondary so the tool is usable along side a
-        //     // running node on the same DB. Using a TempPath since it won't run for long.
+        //     // When not committing, we open the DB as secondary so the tool 
+        //     // is usable along side a running node on the same DB. 
+        //     // Using a TempPath since it won't run for long.
         //     match DiemDB::open(file, true, None) {
         //         Ok(db) => {
         //             return db.get_latest_version().is_ok();
@@ -196,6 +195,8 @@ impl Node {
         //         Err(_e) => (),
         //     }
         // }
+        panic!("Error: Incomplete function"); // Remove this after fixing this fn
+
         return false;
     }
 
