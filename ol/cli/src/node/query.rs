@@ -1,5 +1,7 @@
 //! 'query'
-use diem_json_rpc_client::{AccountAddress/*, views::TransactionView*/};
+use diem_json_rpc_client::{
+  AccountAddress, views::{TransactionDataView, TransactionView}
+};
 use num_format::{Locale, ToFormattedString};
 use super::node::Node;
 
@@ -80,41 +82,37 @@ impl Node {
           .unwrap();
 
         format!("{:#?}", resources).to_string()
+      }      
+      Txs { account, txs_height, txs_count, txs_type } => {
+        let (chain, _) = self.refresh_chain_info();
+        let current_height = chain.unwrap().height;
+        let query_height = if current_height > 100_000 { current_height - 100_000 }
+        else { 0 };
+
+        let txs = self.client.get_txns_by_acc_range(
+          &account.unwrap_or(self.conf.profile.account),
+          txs_height.unwrap_or(query_height),
+          txs_count.unwrap_or(100), 
+          true
+        ).unwrap();
+
+        if let Some(t) = txs_type {
+          let filter: Vec<TransactionView> = txs.into_iter()
+          .filter(|tv|{
+            match &tv.transaction {
+                TransactionDataView::UserTransaction { script, .. } => {
+                  return  script.r#type == t;
+                },
+                _ => false
+            }
+          })
+          .collect();
+          format!("{:#?}", filter)
+        } else {
+          format!("{:#?}", txs)
+        }
       }
-      // 0L todo
-      // Txs { account, txs_height, txs_count, txs_type } => {
-      //   let (chain, _) = self.refresh_chain_info();
-      //   let current_height = chain.unwrap().height;
-      //   let query_height = if current_height > 100_000 { current_height - 100_000 }
-      //   else { 0 };
-
-      //   let txs = self.client.get_txn_by_acc_range(
-      //     account.unwrap_or(self.conf.profile.account),
-      //     txs_height.unwrap_or(query_height),
-      //     txs_count.unwrap_or(100), 
-      //     true
-      //   ).unwrap();
-
-      //   if let Some(t) = txs_type {
-      //     let filter: Vec<TransactionView> = txs.into_iter()
-      //     .filter(|tv|{
-      //       match &tv.transaction {
-      //           diem_json_rpc_client::views::TransactionDataView::UserTransaction {  script, .. } => {
-      //             return  script.r#type == t;
-      //           },
-      //           _ => false
-      //       }
-      //     })
-      //     .collect();
-      //     format!("{:#?}", filter)
-      //   } else {
-      //     format!("{:#?}", txs)
-      //   }
-
-        
-
-      // }
-      _ => String::new()
     }
+
   }
 }

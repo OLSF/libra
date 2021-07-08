@@ -272,6 +272,21 @@ impl DiemClient {
             .map(Response::into_inner)
     }
 
+    /////// 0L /////////
+    /// Get all transactions for an account within a range
+    pub fn get_txns_by_acc_range(
+        &self,
+        account: &AccountAddress,
+        start_seq: u64,
+        limit: u64,
+        fetch_events: bool,
+    ) -> Result<Vec<views::TransactionView>> {
+        self.client
+            .get_account_transactions(*account, start_seq, limit, fetch_events)
+            .map_err(Into::into)
+            .map(Response::into_inner)
+    }
+
     pub fn get_events_by_access_path(
         &self,
         access_path: AccessPath,
