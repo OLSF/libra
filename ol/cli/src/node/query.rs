@@ -81,7 +81,9 @@ impl Node {
 
         format!("{:#?}", resources).to_string()
       }      
-      // 0L todo: https://github.com/OLSF/libra/issues/530
+      // 0L todo: no get_txn_by_acc_range() in new diem client
+      // https://github.com/OLSF/libra/issues/530               
+      // 
       // Txs { account, txs_height, txs_count, txs_type } => {
       //   let (chain, _) = self.refresh_chain_info();
       //   let current_height = chain.unwrap().height;
@@ -111,7 +113,10 @@ impl Node {
       //     format!("{:#?}", txs)
       //   }
       // }
-      _ => String::new()
+      Txs {..} => {        
+        panic!("Txs query currently not supported, see https://github.com/OLSF/libra/issues/530")
+      }
+      
     }
 
   }
