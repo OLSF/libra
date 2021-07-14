@@ -180,22 +180,22 @@ module AccountLimits {
 
     // OL function to publish window by account without libraroot
     public fun publish_window_OL<CoinType>(
-        to_limit: &signer,
-        limit_address: address,
+        sender: &signer,
     ) {
-        assert(exists<LimitsDefinition<CoinType>>(limit_address), Errors::not_published(ELIMITS_DEFINITION));
+        let sender_address = Signer::address_of(sender);
+        assert(exists<LimitsDefinition<CoinType>>(sender_address), Errors::not_published(ELIMITS_DEFINITION));
         assert(
-            !exists<Window<CoinType>>(Signer::address_of(to_limit)),
+            !exists<Window<CoinType>>(sender_address),
             Errors::already_published(EWINDOW)
         );
         move_to(
-            to_limit,
+            sender,
             Window<CoinType> {
                 window_start: current_time(),
                 window_inflow: 0,
                 window_outflow: 0,
                 tracked_balance: 0,
-                limit_address,
+                limit_address: sender_address,
             }
         )
     }

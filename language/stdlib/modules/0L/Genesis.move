@@ -28,6 +28,8 @@ module Genesis {
     use 0x1::Subsidy;
     use 0x1::Epoch;
     use 0x1::MinerState;
+    use 0x1::Wallet;
+    use 0x1::Migrations;
 
     /// Initializes the Libra framework.
     fun initialize(
@@ -99,6 +101,8 @@ module Genesis {
         Subsidy::init_fullnode_sub(lr_account);
         Oracle::initialize(lr_account);
         MinerState::init_list(lr_account);
+        Wallet::init(lr_account);
+        Migrations::init(lr_account);
 
         // After we have called this function, all invariants which are guarded by
         // `LibraTimestamp::is_operating() ==> ...` will become active and a verification condition.

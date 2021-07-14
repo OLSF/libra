@@ -38,6 +38,7 @@
 -  [Function `test_helper_get_count`](#0x1_MinerState_test_helper_get_count)
 -  [Function `test_helper_get_contiguous`](#0x1_MinerState_test_helper_get_contiguous)
 -  [Function `test_helper_set_rate_limit`](#0x1_MinerState_test_helper_set_rate_limit)
+-  [Function `test_helper_set_epochs_mining`](#0x1_MinerState_test_helper_set_epochs_mining)
 -  [Function `test_helper_hash`](#0x1_MinerState_test_helper_hash)
 
 
@@ -1205,6 +1206,33 @@ Public Getters ///
   <b>assert</b>(<a href="Testnet.md#0x1_Testnet_is_testnet">Testnet::is_testnet</a>()== <b>true</b>, <a href="Errors.md#0x1_Errors_invalid_state">Errors::invalid_state</a>(130117));
   <b>let</b> state = borrow_global_mut&lt;<a href="MinerState.md#0x1_MinerState_MinerProofHistory">MinerProofHistory</a>&gt;(miner_addr);
   state.epochs_since_last_account_creation = value;
+}
+</code></pre>
+
+
+
+</details>
+
+<a name="0x1_MinerState_test_helper_set_epochs_mining"></a>
+
+## Function `test_helper_set_epochs_mining`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="MinerState.md#0x1_MinerState_test_helper_set_epochs_mining">test_helper_set_epochs_mining</a>(node_addr: address, value: u64)
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="MinerState.md#0x1_MinerState_test_helper_set_epochs_mining">test_helper_set_epochs_mining</a>(node_addr: address, value: u64)<b>acquires</b> <a href="MinerState.md#0x1_MinerState_MinerProofHistory">MinerProofHistory</a> {
+  <b>assert</b>(<a href="Testnet.md#0x1_Testnet_is_testnet">Testnet::is_testnet</a>()== <b>true</b>, <a href="Errors.md#0x1_Errors_invalid_state">Errors::invalid_state</a>(130117));
+
+  <b>let</b> s = borrow_global_mut&lt;<a href="MinerState.md#0x1_MinerState_MinerProofHistory">MinerProofHistory</a>&gt;(node_addr);
+  s.epochs_validating_and_mining = value;
 }
 </code></pre>
 

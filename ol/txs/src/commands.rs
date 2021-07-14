@@ -19,6 +19,7 @@ mod demo_cmd;
 mod relay_cmd;
 mod valset_cmd;
 mod autopay_cmd;
+mod wallet_cmd;
 
 use abscissa_core::{Command, Configurable, Help, Options, Runnable};
 use ol::commands::CONFIG_FILE;
@@ -34,6 +35,7 @@ use self::{
     demo_cmd::DemoCmd,
     relay_cmd::RelayCmd,
     valset_cmd::ValSetCmd,
+    wallet_cmd::WalletCmd,
 };
 use std::path::PathBuf;
 
@@ -82,6 +84,10 @@ pub enum TxsCmd {
     /// The `valset` subcommand
     #[options(help = "join or leave the validator universe, i.e. candidate for validator set")]
     ValSet(ValSetCmd),
+
+    /// The `valset` subcommand
+    #[options(help = "set a wallet type to the address")]
+    Wallet(WalletCmd),
 }
 
 /// This trait allows you to define how application configuration is loaded.

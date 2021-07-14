@@ -95,6 +95,7 @@ The Move modules in the Libra Framework can be bucketed in to a couple categorie
 -  [`0x1::Authenticator`](Authenticator.md#0x1_Authenticator)
 -  [`0x234567::AutoPay`](AutoPay.md#0x234567_AutoPay)
 -  [`0x1::AutoPay2`](AutoPay.md#0x1_AutoPay2)
+-  [`0x1::Burn`](Burn.md#0x1_Burn)
 -  [`0x1::Cases`](Cases.md#0x1_Cases)
 -  [`0x1::ChainId`](ChainId.md#0x1_ChainId)
 -  [`0x1::Coin1`](Coin1.md#0x1_Coin1)
@@ -123,6 +124,8 @@ The Move modules in the Libra Framework can be bucketed in to a couple categorie
 -  [`0x1::LibraTransactionPublishingOption`](LibraTransactionPublishingOption.md#0x1_LibraTransactionPublishingOption)
 -  [`0x1::LibraVMConfig`](LibraVMConfig.md#0x1_LibraVMConfig)
 -  [`0x1::LibraVersion`](LibraVersion.md#0x1_LibraVersion)
+-  [`0x1::MigrateWallets`](Migrations.md#0x1_MigrateWallets)
+-  [`0x1::Migrations`](Migrations.md#0x1_Migrations)
 -  [`0x1::MinerState`](MinerState.md#0x1_MinerState)
 -  [`0x1::NodeWeight`](NodeWeight.md#0x1_NodeWeight)
 -  [`0x1::Offer`](Offer.md#0x1_Offer)
@@ -151,6 +154,7 @@ The Move modules in the Libra Framework can be bucketed in to a couple categorie
 -  [`0x1::ValidatorOperatorConfig`](ValidatorOperatorConfig.md#0x1_ValidatorOperatorConfig)
 -  [`0x1::ValidatorUniverse`](ValidatorUniverse.md#0x1_ValidatorUniverse)
 -  [`0x1::Vector`](Vector.md#0x1_Vector)
+-  [`0x1::Wallet`](Wallet.md#0x1_Wallet)
 
 
 [//]: # ("File containing references which can be used from documentation")

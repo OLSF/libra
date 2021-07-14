@@ -25,7 +25,8 @@ module Reconfigure {
     use 0x1::AccountLimits;
     use 0x1::GAS::GAS;
     use 0x1::LibraConfig;
-    // use 0x1::Debug::print;
+    use 0x1::Burn;
+    use 0x1::LibraAccount;
     // This function is called by block-prologue once after n blocks.
     // Function code: 01. Prefix: 180001
     public fun reconfigure(vm: &signer, height_now: u64) {
@@ -113,29 +114,37 @@ module Reconfigure {
 
         let jailed_set = LibraSystem::get_jailed_set(vm, height_start, height_now);
 // print(&03250);
+        Burn::reset_ratios(vm);
+        // let incoming_count = Vector::length<address>(&top_accounts) - Vector::length<address>(&jailed_set);
+        // let burn_value = Subsidy::subsidy_curve(
+        //   Globals::get_subsidy_ceiling_gas(),
+        //   incoming_count,
+        //   Globals::get_max_node_density()
+        // )/4;
+        let burn_value = 1000000; // TODO: switch to a variable cost, as above.
+
+// print(&burn_value);
+
 
         let i = 0;
         while (i < Vector::length<address>(&top_accounts)) {
 // print(&03251);
 
             let addr = *Vector::borrow(&top_accounts, i);
+// print(&addr);
             let mined_last_epoch = MinerState::node_above_thresh(vm, addr);
+
+// print(&mined_last_epoch);
+       
             // TODO: temporary until jail-refactor merge.
             if ((!Vector::contains(&jailed_set, &addr)) && mined_last_epoch) {
+// print(&03252);   
+                // execute the burn according to preferences
+                Burn::epoch_start_burn(vm, addr, burn_value);
                 Vector::push_back(&mut proposed_set, addr);
             };
             i = i+ 1;
         };
-
-        // let proposed_set = Vector::empty();
-        // let i = 0;
-        // while (i < Vector::length(&top_accounts)) {
-        //     let addr = *Vector::borrow(&top_accounts, i);
-        //     if (!Vector::contains(&jailed_set, &addr)){
-        //         Vector::push_back(&mut proposed_set, addr);
-        //     };
-        //     i = i+ 1;
-        // };
 
         // 2. get top accounts.
         // TODO: This is temporary. Top N is after jailed have been removed
@@ -149,7 +158,7 @@ module Reconfigure {
         // Usually an issue in staging network for QA only.
         // This is very rare and theoretically impossible for network with at least 6 nodes and 6 rounds. If we reach an epoch boundary with at least 6 rounds, we would have at least 2/3rd of the validator set with at least 66% liveliness. 
 // print(&03270);
-
+        
         // Update all validators with account limits
         // After Epoch 1000. 
         if (LibraConfig::check_transfer_enabled()) {
@@ -175,6 +184,9 @@ module Reconfigure {
         // reset clocks
         Subsidy::fullnode_reconfig(vm);
 //  print(&032120);
+
+        // process community wallets
+        LibraAccount::process_community_wallets(vm, LibraConfig::get_current_epoch());
 
         AutoPay2::reconfig_reset_tick(vm);
 //  print(&032130);

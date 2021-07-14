@@ -11,6 +11,15 @@
     }
   ],
   [
+    "0103727e93787a0ad47f3bdf4356907516f9e80efe3a4a9b549dc9d8a9199b859f",
+    {
+      "address": "00000000000000000000000000000001",
+      "module": "Wallet",
+      "name": "CommunityFreeze",
+      "type_params": []
+    }
+  ],
+  [
     "0103db96f01bcf7ff5102545b9adca4e1459426299a93e1e5bd5e2b615c89e68ed",
     {
       "address": "00000000000000000000000000000001",
@@ -43,6 +52,15 @@
       "address": "00000000000000000000000000000001",
       "module": "LibraVMConfig",
       "name": "GasConstants",
+      "type_params": []
+    }
+  ],
+  [
+    "010d8b242ff8e0c06f7d8dd1eec48228e77c884611b7ddea3963f89d6bab711b2d",
+    {
+      "address": "00000000000000000000000000000001",
+      "module": "Wallet",
+      "name": "SlowWallet",
       "type_params": []
     }
   ],
@@ -116,6 +134,24 @@
           }
         }
       ]
+    }
+  ],
+  [
+    "011bba269197c5d169be0acfc714686d3c3975d97a568da824b34ae91ed50e8e56",
+    {
+      "address": "00000000000000000000000000000001",
+      "module": "Wallet",
+      "name": "CommunityTransfers",
+      "type_params": []
+    }
+  ],
+  [
+    "011c5b67488d4cfc541ad91544a09b53a486442a047833076fd4640d6bdb26bd43",
+    {
+      "address": "00000000000000000000000000000001",
+      "module": "Migrations",
+      "name": "Migrations",
+      "type_params": []
     }
   ],
   [
@@ -205,6 +241,15 @@
       "address": "00000000000000000000000000000001",
       "module": "AutoPay2",
       "name": "Data",
+      "type_params": []
+    }
+  ],
+  [
+    "01350012974e48e07df0718f44fdfe63a39c8ae913cfc35bf7cd61bcc3d1e71097",
+    {
+      "address": "00000000000000000000000000000001",
+      "module": "Wallet",
+      "name": "CommunityWallets",
       "type_params": []
     }
   ],
