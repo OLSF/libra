@@ -5,7 +5,7 @@
 
 use anyhow::Result;
 use executor::{
-    db_bootstrapper::{generate_waypoint, maybe_bootstrap},
+    db_bootstrapper::{generate_waypoint, maybe_bootstrap, get_balance},
     Executor,
 };
 use executor_test_helpers::{
@@ -184,20 +184,7 @@ fn get_transfer_transaction(
     )
 }
 
-fn get_balance(account: &AccountAddress, db: &DbReaderWriter) -> u64 {
-    let account_state_blob = db
-        .reader
-        .get_latest_account_state(*account)
-        .unwrap()
-        .unwrap();
-    let account_state = AccountState::try_from(&account_state_blob).unwrap();
-    account_state
-        .get_balance_resources(&[from_currency_code_string(COIN1_NAME).unwrap()])
-        .unwrap()
-        .get(&from_currency_code_string(COIN1_NAME).unwrap())
-        .unwrap()
-        .coin()
-}
+
 
 fn get_configuration(db: &DbReaderWriter) -> ConfigurationResource {
     let config_blob = db

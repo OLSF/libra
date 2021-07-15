@@ -5067,6 +5067,33 @@ name = "ol-fixtures"
 version = "0.1.0"
 
 [[package]]
+name = "ol-genesis-tools"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "backup-cli",
+ "backup-service",
+ "dirs 2.0.2",
+ "executor",
+ "futures 0.3.6",
+ "libra-canonical-serialization",
+ "libra-config",
+ "libra-crypto",
+ "libra-genesis-tool",
+ "libra-management",
+ "libra-temppath",
+ "libra-types",
+ "libra-vm",
+ "libradb",
+ "move-core-types",
+ "serde",
+ "serde_json",
+ "storage-interface",
+ "tokio",
+ "vm-genesis",
+]
+
+[[package]]
 name = "ol-keys"
 version = "0.1.0"
 dependencies = [

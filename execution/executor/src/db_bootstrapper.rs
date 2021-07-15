@@ -11,17 +11,21 @@ use libra_logger::prelude::*;
 use libra_state_view::{StateView, StateViewId};
 use libra_types::{
     access_path::AccessPath,
-    account_config::libra_root_address,
+    account_config::{libra_root_address, from_currency_code_string,
+        COIN1_NAME},
     block_info::{BlockInfo, GENESIS_EPOCH, GENESIS_ROUND, GENESIS_TIMESTAMP_USECS},
     ledger_info::{LedgerInfo, LedgerInfoWithSignatures},
     libra_timestamp::LibraTimestampResource,
     on_chain_config::{config_address, ConfigurationResource},
     transaction::Transaction,
     waypoint::Waypoint,
+    account_address::AccountAddress,
+    account_state::AccountState
 };
 use libra_vm::VMExecutor;
 use move_core_types::move_resource::MoveResource;
 use std::collections::btree_map::BTreeMap;
+use std::{convert::TryFrom};
 use storage_interface::{state_view::VerifiedStateView, DbReaderWriter, TreeState};
 
 pub fn generate_waypoint<V: VMExecutor>(
@@ -65,6 +69,21 @@ pub struct GenesisCommitter<V: VMExecutor> {
     executor: Executor<V>,
     ledger_info_with_sigs: LedgerInfoWithSignatures,
     waypoint: Waypoint,
+}
+
+pub fn get_balance(account: &AccountAddress, db: &DbReaderWriter) -> u64 {
+    let account_state_blob = db
+        .reader
+        .get_latest_account_state(*account)
+        .unwrap()
+        .unwrap();
+    let account_state = AccountState::try_from(&account_state_blob).unwrap();
+    account_state
+        .get_balance_resources(&[from_currency_code_string(COIN1_NAME).unwrap()])
+        .unwrap()
+        .get(&from_currency_code_string(COIN1_NAME).unwrap())
+        .unwrap()
+        .coin()
 }
 
 impl<V: VMExecutor> GenesisCommitter<V> {

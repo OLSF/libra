@@ -150,6 +150,7 @@ members = [
     "ol/cli",
     "ol/types",
     "ol/fixtures",
+    "ol/genesis-tools",
     "ol/txs",
     "ol/onboard",
     "ol/verifiable_delay/classgroup",

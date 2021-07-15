@@ -1,0 +1,33 @@
+[package]
+name = "ol-genesis-tools"
+version = "0.1.0"
+authors = ["Rahul Grover <rahulgrover99@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.33"
+futures = "0.3"
+tokio = { version = "0.2.22", features = ["full"] }
+lcs = { path = "../../common/lcs", package = "libra-canonical-serialization", version = "0.1.0" }
+libra-crypto = { path = "../../crypto/crypto", version = "0.1.0" }
+libra-types = { path = "../../types", version = "0.1.0" }
+backup-cli = { path = "../../storage/backup/backup-cli", version = "0.1.0" }
+serde = { version = "1.0.116", features = ["derive"] }
+serde_json = "1.0.58"
+backup-service = { path = "../../storage/backup/backup-service", version = "0.1.0" }
+dirs = "2.0.2"
+libradb = { path = "../../storage/libradb", version = "0.1.0", features = ["fuzzing"] }
+libra-management = { path = "../../config/management", version = "0.1.0" }
+libra-config = { path = "../../config", version = "0.1.0" }
+libra-temppath = { path = "../../common/temppath", version = "0.1.0" }
+libra-genesis-tool = {path = "../../config/management/genesis", version = "0.1.0", features = ["testing"] }
+executor = { path = "../../execution/executor", version = "0.1.0", features = ["fuzzing"] }
+storage-interface = { path = "../../storage/storage-interface", version = "0.1.0" }
+libra-vm = { path = "../../language/libra-vm", version = "0.1.0" }
+move-core-types = { path = "../../language/move-core/types", version = "0.1.0", features = ["fuzzing"] }
+vm-genesis={path="../../language/tools/vm-genesis", version="0.1.0"}
+
+[features]
+fuzzing = ["libradb/fuzzing"]

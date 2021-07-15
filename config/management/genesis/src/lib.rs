@@ -9,7 +9,7 @@ pub mod key;  //////// 0L /////////
 pub mod layout;
 mod validator_config;
 mod validator_operator;
-mod verify;
+pub mod verify;
 mod waypoint;
 //////// 0L ////////
 pub mod init;
