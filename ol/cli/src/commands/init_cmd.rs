@@ -15,6 +15,7 @@ use libra_wallet::WalletLibrary;
 use url::Url;
 use fs_extra::file::{copy, CopyOptions};
 use fs_extra::dir::{create};
+use crate::checkup;
 
 /// `init` subcommand
 #[derive(Command, Debug, Default, Options)]
@@ -27,6 +28,8 @@ pub struct InitCmd {
     skip_app: bool,
     #[options(help = "Skip validator init")]
     skip_val: bool,
+    #[options(help = "Check config file and give hints if something seems wrong")]
+    checkup: bool,
     #[options(help = "Fix config file, and migrate any missing fields")]
     fix: bool,
     #[options(help = "Set a waypoint in config files")]
@@ -39,12 +42,18 @@ pub struct InitCmd {
 impl Runnable for InitCmd {
     /// Print version message
     fn run(&self) {
-        if *&self.fix {
+        if *&self.checkup {
+          // check 0L.toml file
+          checkup::checkup(self.path.to_owned());
+          return
+        };
+
+       if *&self.fix {
           // fix 0L.toml file
           migrate::migrate(self.path.to_owned());
           return
         };
-
+        
         let entry_args = entrypoint::get_args();
         if let Some(path) = entry_args.swarm_path {
           let swarm_node_home = entrypoint::get_node_home();

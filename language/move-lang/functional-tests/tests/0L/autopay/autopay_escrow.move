@@ -6,6 +6,38 @@
 // Check autopay is triggered in block prologue correctly i.e., middle of epoch boundary
 
 //! new-transaction
+//! sender: bob
+script {
+    use 0x1::Wallet;
+    use 0x1::Vector;
+
+    fun main(sender: &signer) {
+      Wallet::set_comm(sender);
+      let list = Wallet::get_comm_list();
+      assert(Vector::length(&list) == 1, 7357001);
+    }
+}
+
+// check: EXECUTED
+
+
+//! new-transaction
+//! sender: greg
+script {
+    use 0x1::Wallet;
+    use 0x1::Vector;
+
+    fun main(sender: &signer) {
+      Wallet::set_comm(sender);
+      let list = Wallet::get_comm_list();
+      assert(Vector::length(&list) == 2, 7357001);
+    }
+}
+
+// check: EXECUTED
+
+
+//! new-transaction
 //! sender: libraroot
 script {
     use 0x1::AccountLimits;

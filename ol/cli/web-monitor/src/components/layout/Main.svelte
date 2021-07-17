@@ -6,13 +6,16 @@
   import AutoPay from "../autopay/AutoPay.svelte";
   import WatchList from "../watch-list/WatchList.svelte";
   import AuditVals from "../audit/AuditVals.svelte";
+  import { onDestroy } from 'svelte';
   import { chainInfo } from "../../store.ts";
 
   let data;
-  chainInfo.subscribe((info_str) => {
+  
+  const unsubscribe = chainInfo.subscribe((info_str) => {
     data = JSON.parse(info_str);
-    console.log(data);
   });
+  
+  onDestroy(unsubscribe);
 </script>
 
 <main uk-height-viewport="expand: true" class="uk-background-muted uk-overflow-auto">

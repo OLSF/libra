@@ -41,6 +41,7 @@ module LibraAccount {
     use 0x1::FIFO;
     use 0x1::FixedPoint32;
     use 0x1::ValidatorUniverse;
+    use 0x1::Wallet;
 
     /// An `address` is a Libra Account if it has a published LibraAccount resource.
     resource struct LibraAccount {
@@ -914,8 +915,13 @@ module LibraAccount {
     ): WithdrawCapability acquires LibraAccount {
         //////// 0L //////// Transfers disabled by default
         //////// 0L //////// Transfers of 10 GAS 
-        //////// 0L //////// enabled when validator count is 100. 
+        //////// 0L //////// enabled when epoch is 1000. 
         let sender_addr = Signer::address_of(sender);
+
+        // Community wallets have own transfer mechanism.
+        let community_wallets = Wallet::get_comm_list();
+        assert(!Vector::contains(&community_wallets, &sender_addr), Errors::limit_exceeded(EWITHDRAWAL_EXCEEDS_LIMITS));
+
         if (LibraConfig::check_transfer_enabled()) {
             if(!AccountLimits::has_limits_published<GAS>(sender_addr)){
                 AccountLimits::publish_restricted_limits_definition_OL<GAS>(sender);
@@ -1038,15 +1044,44 @@ module LibraAccount {
         restore_withdraw_capability(cap);
     }
 
+    //////// 0L ////////
+    public fun process_community_wallets(vm: &signer, epoch: u64) acquires LibraAccount, Balance, AccountOperationsCapability {
+      if (Signer::address_of(vm) != CoreAddresses::LIBRA_ROOT_ADDRESS()) return;
+      
+      // Migrate on the fly if state doesn't exist on upgrade.
+      if (!Wallet::is_init_comm()) {
+        Wallet::init(vm);
+        return
+      };
 
-     public fun vm_make_payment_no_limit<Token>(
-        payer : address,
+      let v = Wallet::list_tx_by_epoch(epoch);
+
+      let len = Vector::length<Wallet::TimedTransfer>(&v);
+      let i = 0;
+      while (i < len) {
+        
+        let t: Wallet::TimedTransfer = *Vector::borrow(&v, i);
+        //TODO: Is this the best way to access a struct property from outside a module?
+        let (payer, payee, value, description) = Wallet::get_tx_args(t);
+        
+        if (Wallet::is_frozen(payer)) continue;
+
+        vm_make_payment_no_limit<GAS>(payer, payee, value, description, b"", vm);
+        
+        Wallet::maybe_reset_rejection_counter(vm, payer);
+        
+        i = i + 1;
+      };
+    }
+
+    public fun vm_make_payment_no_limit<Token>(
+        payer: address,
         payee: address,
         amount: u64,
         metadata: vector<u8>,
         metadata_signature: vector<u8>,
         vm: &signer
-    ) acquires LibraAccount , Balance, AccountOperationsCapability {
+    ) acquires LibraAccount, Balance, AccountOperationsCapability {
         if (Signer::address_of(vm) != CoreAddresses::LIBRA_ROOT_ADDRESS()) return;
         // don't try to send a 0 balance, will halt.
         if (amount < 0) return; 
@@ -1404,7 +1439,8 @@ module LibraAccount {
 
         //////// 0L ////////
         TrustedAccounts::initialize(&new_account);
-
+        Wallet::set_slow(&new_account);
+        
         destroy_signer(new_account);
     }
 
@@ -2453,6 +2489,13 @@ module LibraAccount {
             metadata,
             metadata_signature
         );
+    }
+
+    public fun vm_set_slow_wallet(vm: &signer, addr: address) {
+      CoreAddresses::assert_libra_root(vm);
+      let sig = create_signer(addr);
+      Wallet::set_slow(&sig);
+      destroy_signer(sig);
     }
 
     /////// TEST HELPERS //////

@@ -23,14 +23,14 @@ MNEM="talent sunset lizard pill fame nuclear spy noodle basket okay critic grow 
 NUM_NODES = 2
 
 ifndef PREV_VERSION
-PREV_VERSION=v4.3.1
+PREV_VERSION=v4.3.2
 endif
 
 ifndef BRANCH_NAME
 BRANCH_NAME=main
 endif
 
-# USAGE: BRANCH_NAME=<latest branch> make -f test-upgrade.mk upgrade-test
+# USAGE: BRANCH_NAME=<latest branch> make -f test-upgrade.mk upgrade
 # NOTE: BRANCH_NAME shares semantics with https://github.com/marketplace/actions/get-branch-name
 test: prep get-prev stdlib start upgrade check progress stop
 
@@ -50,11 +50,11 @@ prep:
 
 get-prev:
 	cd ${SOURCE_PATH} && git reset --hard && git fetch
-	cd ${SOURCE_PATH} && git checkout ${PREV_VERSION}
+	cd ${SOURCE_PATH} && git checkout ${PREV_VERSION} -f
 
 get-test:
 	cd ${SOURCE_PATH} && git reset --hard && git fetch
-	cd ${SOURCE_PATH} && git checkout ${BRANCH_NAME}
+	cd ${SOURCE_PATH} && git checkout ${BRANCH_NAME} -f
 
 stdlib:
 	cd ${SOURCE_PATH} && cargo run --release -p stdlib
@@ -73,7 +73,6 @@ query:
 
 txs:
 	cd ${SOURCE_PATH} && cargo run -p txs -- --swarm-path ${SWARM_TEMP} --swarm-persona ${PERSONA} demo
-
 
 ifeq ($(UNAME), Darwin)
 END = $(shell date -v +5M +%s)

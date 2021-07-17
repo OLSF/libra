@@ -1312,6 +1312,10 @@ pub enum ScriptCall {
         operator_account: AccountAddress,
     },
 
+    SetWalletType {
+        type_of: u8,
+    },
+
     /// # Summary
     /// Mints a specified number of coins in a currency to a Designated Dealer. The sending account
     /// must be the Treasury Compliance account, and coins can only be minted to a Designated Dealer
@@ -1795,6 +1799,7 @@ impl ScriptCall {
                 operator_name,
                 operator_account,
             ),
+            SetWalletType { type_of } => encode_set_wallet_type_script(type_of),
             TieredMint {
                 coin_type,
                 sliding_nonce,
@@ -3426,6 +3431,14 @@ pub fn encode_set_validator_operator_with_nonce_admin_script(
     )
 }
 
+pub fn encode_set_wallet_type_script(type_of: u8) -> Script {
+    Script::new(
+        SET_WALLET_TYPE_CODE.to_vec(),
+        vec![],
+        vec![TransactionArgument::U8(type_of)],
+    )
+}
+
 /// # Summary
 /// Mints a specified number of coins in a currency to a Designated Dealer. The sending account
 /// must be the Treasury Compliance account, and coins can only be minted to a Designated Dealer
@@ -4021,6 +4034,12 @@ fn decode_set_validator_operator_with_nonce_admin_script(script: &Script) -> Opt
     })
 }
 
+fn decode_set_wallet_type_script(script: &Script) -> Option<ScriptCall> {
+    Some(ScriptCall::SetWalletType {
+        type_of: decode_u8_argument(script.args().get(0)?.clone())?,
+    })
+}
+
 fn decode_tiered_mint_script(script: &Script) -> Option<ScriptCall> {
     Some(ScriptCall::TieredMint {
         coin_type: script.ty_args().get(0)?.clone(),
@@ -4227,6 +4246,10 @@ static SCRIPT_DECODER_MAP: once_cell::sync::Lazy<DecoderMap> = once_cell::sync::
     map.insert(
         SET_VALIDATOR_OPERATOR_WITH_NONCE_ADMIN_CODE.to_vec(),
         Box::new(decode_set_validator_operator_with_nonce_admin_script),
+    );
+    map.insert(
+        SET_WALLET_TYPE_CODE.to_vec(),
+        Box::new(decode_set_wallet_type_script),
     );
     map.insert(
         TIERED_MINT_CODE.to_vec(),
@@ -4755,6 +4778,14 @@ const SET_VALIDATOR_OPERATOR_WITH_NONCE_ADMIN_CODE: &[u8] = &[
     12, 115, 101, 116, 95, 111, 112, 101, 114, 97, 116, 111, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 1, 0, 5, 6, 18, 11, 0, 10, 2, 17, 0, 10, 4, 17, 1, 11, 3, 33, 12, 5, 11, 5, 3, 14,
     11, 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 39, 11, 1, 10, 4, 17, 2, 2,
+];
+
+const SET_WALLET_TYPE_CODE: &[u8] = &[
+    161, 28, 235, 11, 1, 0, 0, 0, 5, 1, 0, 2, 3, 2, 10, 5, 12, 8, 7, 20, 25, 8, 45, 16, 0, 0, 0, 1,
+    0, 1, 0, 0, 2, 0, 1, 0, 1, 6, 12, 0, 2, 6, 12, 2, 6, 87, 97, 108, 108, 101, 116, 8, 115, 101,
+    116, 95, 99, 111, 109, 109, 8, 115, 101, 116, 95, 115, 108, 111, 119, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 1, 18, 10, 1, 49, 0, 33, 3, 5, 5, 7, 10, 0, 17, 1, 10, 1, 49, 1,
+    33, 3, 12, 5, 15, 11, 0, 17, 0, 5, 17, 11, 0, 1, 2,
 ];
 
 const TIERED_MINT_CODE: &[u8] = &[

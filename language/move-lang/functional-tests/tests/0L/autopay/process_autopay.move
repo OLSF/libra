@@ -40,15 +40,43 @@ script {
   use 0x1::Signer;
   fun main(sender: &signer) {
     AutoPay2::enable_autopay(sender);
-    assert(AutoPay2::is_enabled(Signer::address_of(sender)), 0);
+    assert(AutoPay2::is_enabled(Signer::address_of(sender)), 7357001);
     AutoPay2::create_instruction(sender, 1, 0, {{bob}}, 2, 500);
     let (type, payee, end_epoch, percentage) = AutoPay2::query_instruction(Signer::address_of(sender), 1);
-    assert(type == 0u8, 1);
-    assert(payee == {{bob}}, 1);
-    assert(end_epoch == 2, 1);
-    assert(percentage == 500, 1);
+    assert(type == 0u8, 7357002);
+    assert(payee == {{bob}}, 7357003);
+    assert(end_epoch == 2, 7357004);
+    assert(percentage == 500, 7357005);
     }
 }
+// check: EXECUTED
+
+
+// //! new-transaction
+// //! sender: libraroot
+// script {
+//     use 0x1::Wallet;
+
+//     fun main(vm: &signer) {
+//       Wallet::init_comm_list(vm);
+//     }
+// }
+
+// // check: EXECUTED
+
+//! new-transaction
+//! sender: bob
+script {
+    use 0x1::Wallet;
+    use 0x1::Vector;
+
+    fun main(sender: &signer) {
+      Wallet::set_comm(sender);
+      let list = Wallet::get_comm_list();
+      assert(Vector::length(&list) == 1, 7357006);
+    }
+}
+
 // check: EXECUTED
 
 // Processing AutoPay2 to see if payments are done
@@ -58,21 +86,18 @@ script {
   use 0x1::AutoPay2;
   use 0x1::LibraAccount;
   use 0x1::GAS::GAS;
-  use 0x1::Debug::print;
   fun main(sender: &signer) {
     let alice_balance = LibraAccount::balance<GAS>({{alice}});
     let bob_balance = LibraAccount::balance<GAS>({{bob}});
-    assert(alice_balance==1000000, 1);
+    assert(alice_balance==1000000, 7357007);
     AutoPay2::process_autopay(sender);
     
     let alice_balance_after = LibraAccount::balance<GAS>({{alice}});
-    assert(alice_balance_after < alice_balance, 2);
+    assert(alice_balance_after < alice_balance, 7357008);
     
     let transferred = alice_balance - alice_balance_after;
-    print(&transferred);
     let bob_received = LibraAccount::balance<GAS>({{bob}}) - bob_balance;
-    print(&bob_received);
-    //assert(bob_received == transferred, 2);
-    }
+    assert(transferred==bob_received, 7357009)
+  }
 }
 // check: EXECUTED

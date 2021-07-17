@@ -35,7 +35,7 @@ export
 # account.json fixtures generated with:
 # cargo r -p onboard -- --swarm-path ./whatever val --upstream-peer http://167.172.248.37/
 
-test: swarm check-swarm create-json send-tx check-tx check-account-created check-transfer stop
+test: swarm check-swarm set-community create-json send-tx check-tx check-account-created check-transfer stop
 
 swarm:
 	@echo Building Swarm
@@ -67,6 +67,9 @@ create-json:
 tx:
 	@echo TX
 	cd ${SOURCE_PATH} && NODE_ENV=test TEST=y cargo r -p txs -- --swarm-path ${SWARM_TEMP} --swarm-persona ${PERSONA} create-validator -f ${ONBOARD_FILE}
+
+set-community:
+	cd ${SOURCE_PATH} && NODE_ENV=test TEST=y cargo r -p txs -- --swarm-path ${SWARM_TEMP} --swarm-persona bob wallet -c
 
 resources:
 	cd ${SOURCE_PATH} && cargo run -p ol -- --swarm-path ${SWARM_TEMP} --swarm-persona ${PERSONA} --account ${EVE} query --resources

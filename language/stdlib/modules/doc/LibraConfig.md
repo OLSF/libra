@@ -222,6 +222,16 @@ A <code><a href="LibraConfig.md#0x1_LibraConfig_ModifyConfigCapability">ModifyCo
 
 
 
+<a name="0x1_LibraConfig_TRANSFER_ENABLED_EPOCH"></a>
+
+Epoch when transfers are enabled
+
+
+<pre><code><b>const</b> <a href="LibraConfig.md#0x1_LibraConfig_TRANSFER_ENABLED_EPOCH">TRANSFER_ENABLED_EPOCH</a>: u64 = 1000;
+</code></pre>
+
+
+
 <a name="0x1_LibraConfig_initialize"></a>
 
 ## Function `initialize`
@@ -899,7 +909,7 @@ reconfiguration event.
 
 <pre><code><b>public</b> <b>fun</b> <a href="LibraConfig.md#0x1_LibraConfig_get_epoch_transfer_limit">get_epoch_transfer_limit</a>(): u64 <b>acquires</b> <a href="LibraConfig.md#0x1_LibraConfig_Configuration">Configuration</a> {
     // Constant <b>to</b> start the withdrawal limit calculation from
-    <b>let</b> transfer_enabled_epoch = 75;
+    <b>let</b> transfer_enabled_epoch = <a href="LibraConfig.md#0x1_LibraConfig_TRANSFER_ENABLED_EPOCH">TRANSFER_ENABLED_EPOCH</a>;
     <b>let</b> config_ref = borrow_global&lt;<a href="LibraConfig.md#0x1_LibraConfig_Configuration">Configuration</a>&gt;(<a href="CoreAddresses.md#0x1_CoreAddresses_LIBRA_ROOT_ADDRESS">CoreAddresses::LIBRA_ROOT_ADDRESS</a>());
 
     // Calculating transfer limit in multiples of epoch
@@ -930,7 +940,7 @@ reconfiguration event.
     <b>if</b>(<a href="Testnet.md#0x1_Testnet_is_testnet">Testnet::is_testnet</a>()){
         <b>true</b>
     } <b>else</b> {
-        <a href="LibraConfig.md#0x1_LibraConfig_get_current_epoch">get_current_epoch</a>() &gt; 1000
+        <a href="LibraConfig.md#0x1_LibraConfig_get_current_epoch">get_current_epoch</a>() &gt; <a href="LibraConfig.md#0x1_LibraConfig_TRANSFER_ENABLED_EPOCH">TRANSFER_ENABLED_EPOCH</a>
     }
 }
 </code></pre>

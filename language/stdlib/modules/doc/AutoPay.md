@@ -15,6 +15,7 @@
 -  [Function `reconfig_reset_tick`](#0x1_AutoPay2_reconfig_reset_tick)
 -  [Function `initialize`](#0x1_AutoPay2_initialize)
 -  [Function `enable_account_limits`](#0x1_AutoPay2_enable_account_limits)
+-  [Function `get_all_payees`](#0x1_AutoPay2_get_all_payees)
 -  [Function `process_autopay`](#0x1_AutoPay2_process_autopay)
 -  [Function `enable_autopay`](#0x1_AutoPay2_enable_autopay)
 -  [Function `disable_autopay`](#0x1_AutoPay2_disable_autopay)
@@ -34,6 +35,7 @@
 <b>use</b> <a href="Option.md#0x1_Option">0x1::Option</a>;
 <b>use</b> <a href="Signer.md#0x1_Signer">0x1::Signer</a>;
 <b>use</b> <a href="Vector.md#0x1_Vector">0x1::Vector</a>;
+<b>use</b> <a href="Wallet.md#0x1_Wallet">0x1::Wallet</a>;
 </code></pre>
 
 
@@ -438,6 +440,53 @@ Attempt to add instruction when too many already exist
 
 </details>
 
+<a name="0x1_AutoPay2_get_all_payees"></a>
+
+## Function `get_all_payees`
+
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="AutoPay.md#0x1_AutoPay2_get_all_payees">get_all_payees</a>(): vector&lt;address&gt;
+</code></pre>
+
+
+
+<details>
+<summary>Implementation</summary>
+
+
+<pre><code><b>public</b> <b>fun</b> <a href="AutoPay.md#0x1_AutoPay2_get_all_payees">get_all_payees</a>():vector&lt;address&gt; <b>acquires</b> <a href="AutoPay.md#0x1_AutoPay2_AccountList">AccountList</a>, <a href="AutoPay.md#0x1_AutoPay2_Data">Data</a> {
+  <b>let</b> account_list = &borrow_global&lt;<a href="AutoPay.md#0x1_AutoPay2_AccountList">AccountList</a>&gt;(<a href="CoreAddresses.md#0x1_CoreAddresses_LIBRA_ROOT_ADDRESS">CoreAddresses::LIBRA_ROOT_ADDRESS</a>()).accounts;
+  <b>let</b> accounts_length = <a href="Vector.md#0x1_Vector_length">Vector::length</a>&lt;address&gt;(account_list);
+  <b>let</b> account_idx = 0;
+  <b>let</b> payee_vec = <a href="Vector.md#0x1_Vector_empty">Vector::empty</a>&lt;address&gt;();
+
+// print(&02200);
+  <b>while</b> (account_idx &lt; accounts_length) {
+    <b>let</b> account_addr = <a href="Vector.md#0x1_Vector_borrow">Vector::borrow</a>&lt;address&gt;(account_list, account_idx);
+    // Obtain the account balance
+    // <b>let</b> account_bal = <a href="LibraAccount.md#0x1_LibraAccount_balance">LibraAccount::balance</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr);
+    // Go through all payments for this account and pay
+    <b>let</b> payments = &<b>mut</b> borrow_global_mut&lt;<a href="AutoPay.md#0x1_AutoPay2_Data">Data</a>&gt;(*account_addr).payments;
+    <b>let</b> payments_len = <a href="Vector.md#0x1_Vector_length">Vector::length</a>&lt;<a href="AutoPay.md#0x1_AutoPay2_Payment">Payment</a>&gt;(payments);
+    <b>let</b> payments_idx = 0;
+    <b>while</b> (payments_idx &lt; payments_len) {
+      <b>let</b> payment = <a href="Vector.md#0x1_Vector_borrow_mut">Vector::borrow_mut</a>&lt;<a href="AutoPay.md#0x1_AutoPay2_Payment">Payment</a>&gt;(payments, payments_idx);
+      <b>if</b> (!<a href="Vector.md#0x1_Vector_contains">Vector::contains</a>&lt;address&gt;(&payee_vec, &payment.payee)) {
+        <a href="Vector.md#0x1_Vector_push_back">Vector::push_back</a>&lt;address&gt;(&<b>mut</b> payee_vec, payment.payee);
+      };
+      payments_idx = payments_idx + 1;
+    };
+    account_idx = account_idx + 1;
+  };
+  <b>return</b> payee_vec
+}
+</code></pre>
+
+
+
+</details>
+
 <a name="0x1_AutoPay2_process_autopay"></a>
 
 ## Function `process_autopay`
@@ -503,13 +552,18 @@ Attempt to add instruction when too many already exist
             payment.amt
           };
 
-          <b>if</b> (amount != 0 && amount &lt;= account_bal) {
-            <b>if</b> (borrow_global&lt;<a href="AutoPay.md#0x1_AutoPay2_AccountLimitsEnable">AccountLimitsEnable</a>&gt;(<a href="Signer.md#0x1_Signer_address_of">Signer::address_of</a>(vm)).enabled) {
-              <a href="LibraAccount.md#0x1_LibraAccount_vm_make_payment">LibraAccount::vm_make_payment</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr, payment.payee, amount, x"", x"", vm);
-            } <b>else</b> {
-              <a href="LibraAccount.md#0x1_LibraAccount_vm_make_payment_no_limit">LibraAccount::vm_make_payment_no_limit</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr, payment.payee, amount, x"", x"", vm);
+          // check payees are community wallets
+          <b>let</b> list = <a href="Wallet.md#0x1_Wallet_get_comm_list">Wallet::get_comm_list</a>();
+          <b>if</b> (<a href="Vector.md#0x1_Vector_contains">Vector::contains</a>&lt;address&gt;(&list, &payment.payee)) {
+            <b>if</b> (amount != 0 && amount &lt;= account_bal) {
+              <b>if</b> (borrow_global&lt;<a href="AutoPay.md#0x1_AutoPay2_AccountLimitsEnable">AccountLimitsEnable</a>&gt;(<a href="Signer.md#0x1_Signer_address_of">Signer::address_of</a>(vm)).enabled) {
+                <a href="LibraAccount.md#0x1_LibraAccount_vm_make_payment">LibraAccount::vm_make_payment</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr, payment.payee, amount, x"", x"", vm);
+              } <b>else</b> {
+                <a href="LibraAccount.md#0x1_LibraAccount_vm_make_payment_no_limit">LibraAccount::vm_make_payment_no_limit</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr, payment.payee, amount, x"", x"", vm);
+              };
             };
           };
+
 
           // <b>update</b> previous balance for next calculation
           payment.prev_bal = <a href="LibraAccount.md#0x1_LibraAccount_balance">LibraAccount::balance</a>&lt;<a href="GAS.md#0x1_GAS">GAS</a>&gt;(*account_addr);

@@ -279,7 +279,7 @@ fn make_backup_file(filename: &PathBuf) {
 /// read a file into a String
 /// borrowed from:
 /// https://www.tutorialspoint.com/file-operations-in-rust-programming
-fn read_file(filename: &PathBuf) -> String {
+pub fn read_file(filename: &PathBuf) -> String {
     let mut file = match File::open(&filename) {
         Err(why) => panic!("unable to open {:?} - {}", filename, why),
         Ok(file) => file,

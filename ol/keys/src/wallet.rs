@@ -19,7 +19,11 @@ pub fn keygen() -> (AuthenticationKey, AccountAddress, WalletLibrary) {
         
         println!("0L Account Address:\n\
         ...........................\n\
-        {:?}\n", &account);
+        {}\n", &account.to_string());
+
+        println!("Authentication Key (for key rotation):\n\
+        ...........................\n\
+        {}\n", &auth_key.to_string());
 
         println!("0L mnemonic:\n\
         ...........................");

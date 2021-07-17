@@ -1,0 +1,79 @@
+use anyhow::Result;
+use cli::libra_client::LibraClient;
+use libra_json_rpc_client::views::EventView;
+use libra_types::{
+    account_address::AccountAddress,
+    account_state::AccountState,
+    event::{EventHandle, EventKey},
+};
+use std::convert::TryFrom;
+
+const BATCH_SIZE: u64 = 500;
+
+pub struct EventsFetcher(LibraClient);
+
+impl EventsFetcher {
+    pub fn new(client: LibraClient) -> Result<Self> {
+        Ok(Self(client))
+    }
+
+    fn get_account_state(&mut self, account: AccountAddress) -> Result<Option<AccountState>> {
+        let blob = self
+        .0
+        .get_account_state_blob(account)
+        .unwrap()
+        .0
+        .unwrap();
+
+        Ok(Some(AccountState::try_from(&blob)?))
+    }
+
+    pub fn get_payment_event_handles(
+        &mut self,
+        account: AccountAddress,
+    ) -> Result<Option<(EventHandle, EventHandle)>> {
+        match self.get_account_state(account)? {
+            Some(account_state) => {
+              let handles = account_state
+              .get_account_resource()?
+              .map(|resource| {
+                (
+                    resource.sent_events().clone(),
+                    resource.received_events().clone(),
+                )
+            });
+            Ok(handles)
+            },
+            None => Ok(None),
+        }
+    }
+
+    pub fn get_events(
+        &mut self,
+        event_key: &EventKey,
+        start: u64,
+        limit: u64,
+    ) -> Result<Vec<EventView>> {
+        let key = hex::encode(event_key.as_bytes());
+        self
+        .0
+        .get_events(key, start, limit)
+    }
+
+    pub fn get_handle_events(&mut self, event_handle: &EventHandle) -> Result<Vec<EventView>> {
+        if event_handle.count() == 0 {
+            return Ok(vec![]);
+        }
+        let mut futures = vec![];
+        let mut i: u64 = 0;
+        while i.wrapping_add(BATCH_SIZE) < event_handle.count() {
+            futures.push(self.get_events(event_handle.key(), i, BATCH_SIZE));
+            i = i.wrapping_add(BATCH_SIZE);
+        }
+        self.get_events(
+          event_handle.key(), 
+          i, 
+          event_handle.count().wrapping_sub(i)
+        )
+    }
+}

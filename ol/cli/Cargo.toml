@@ -60,6 +60,9 @@ gag = "0.1.10"
 port_scanner = "0.1.5"
 backup-cli = { path = "../../storage/backup/backup-cli", version = "0.1.0" }
 move-core-types = { path = "../../language/move-core/types", version = "0.1.0" }
+walkdir = "2.3"
+rand = "0.8"
+lcs = { path = "../../common/lcs", version = "0.1.0", package = "libra-canonical-serialization" }
 
 # Parity with Storage create
 [dependencies.rocksdb]

@@ -38,6 +38,12 @@ pub struct QueryCmd {
     #[options(help = "get last transactions, defaults to last 100")]
     txs: bool,
 
+    #[options(help = "get last payment events SENT, defaults to last 100")]
+    events_sent: bool,
+    
+    #[options(help = "get last payment events RECEIVED, defaults to last 100")]
+    events_received: bool,
+
     #[options(help = "height to start txs query from, defaults to -100_000 blocks")]
     txs_height: Option<u64>,
 
@@ -105,6 +111,13 @@ impl Runnable for QueryCmd {
         else if self.epoch {
             info = node.query(QueryType::Epoch);
             display = "EPOCH";
+        } else if self.events_received {
+            
+            info = node.query(QueryType::Events{account, sent_or_received: false, seq_start: self.txs_height});
+            display = "EVENTS";
+        } else if self.events_sent {
+            info = node.query(QueryType::Events{account, sent_or_received: true, seq_start: self.txs_height});
+            display = "EVENTS";
         }
         else if self.txs {
             info = node.query(

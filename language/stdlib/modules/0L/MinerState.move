@@ -557,6 +557,13 @@ address 0x1 {
       state.epochs_since_last_account_creation = value;
     }
 
+    public fun test_helper_set_epochs_mining(node_addr: address, value: u64)acquires MinerProofHistory {
+      assert(Testnet::is_testnet()== true, Errors::invalid_state(130117));
+
+      let s = borrow_global_mut<MinerProofHistory>(node_addr);
+      s.epochs_validating_and_mining = value;
+    }
+
     // Function code: 18
     public fun test_helper_hash(miner_addr: address): vector<u8> acquires MinerProofHistory {
       assert(Testnet::is_testnet()== true, Errors::invalid_state(130118));
