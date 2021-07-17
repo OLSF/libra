@@ -3,8 +3,8 @@
     {
       "note": "test balance",
       "uid": 0,
-      "destination": "88E74DFED34420F2AD8032148280A84B",
-      "type_of": "PercentOfBalance",
+      "destination": "4C613C2F4B1E67CA8D98A542EE3F59F5",
+      "type_of": "PercentOfChange",
       "value": 12.34,
       "duration_epochs": 100
     }

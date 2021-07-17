@@ -6,4 +6,5 @@ pub mod query;
 pub mod sync;
 pub mod client;
 pub mod states;
+pub mod dictionary;
 mod transitions;

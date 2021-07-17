@@ -5055,6 +5055,7 @@ with this <code>hash</code> can be successfully sent to the network.
 
 -  [`0x1::AccountFreezing`](../../modules/doc/AccountFreezing.md#0x1_AccountFreezing)
 -  [`0x1::AccountLimits`](../../modules/doc/AccountLimits.md#0x1_AccountLimits)
+-  [`0x1::Audit`](../../modules/doc/Audit.md#0x1_Audit)
 -  [`0x1::Authenticator`](../../modules/doc/Authenticator.md#0x1_Authenticator)
 -  [`0x234567::AutoPay`](../../modules/doc/AutoPay.md#0x234567_AutoPay)
 -  [`0x1::AutoPay2`](../../modules/doc/AutoPay.md#0x1_AutoPay2)

@@ -1,4 +1,4 @@
-//! miner state view for cli
+//! autopay view for web monitor
 
 use libra_types::{
     access_path::AccessPath,
@@ -25,6 +25,8 @@ pub struct AutoPayResource {
 pub struct AutoPayView {
     /// 
     pub payments: Vec<PaymentView>,
+    ///
+    pub recurring_sum: u64,
 }
 
 /// Autopay instruction
@@ -32,6 +34,8 @@ pub struct AutoPayView {
 pub struct PaymentView {
     ///
     pub uid: u64,
+    ///
+    pub in_type: u8,
     ///
     pub type_desc: String,
     ///
@@ -41,7 +45,18 @@ pub struct PaymentView {
     ///
     pub prev_bal: u64,
     ///
+    pub amt: u64,    
+    ///
     pub amount: String,
+    ///
+    pub note: Option<String>,
+}
+
+impl PaymentView {
+    ///
+    pub fn is_percent_of_change(&self) -> bool {
+        self.in_type == 1u8
+    }
 }
 
 /// Autopay instruction
@@ -120,13 +135,26 @@ impl AutoPayResource {
         let payments = self.payment.iter().map(|each| {
             PaymentView {
                 uid: each.uid,
+                in_type: each.in_type,
                 type_desc: each.get_type_desc(),
                 payee: each.payee,
                 end_epoch: each.end_epoch,
                 prev_bal: each.prev_bal,
+                amt: each.amt,
                 amount: each.get_amount_formatted(),
+                note: None,
             }
         }).collect();
-        AutoPayView { payments: payments }
+
+        // sum amount of recurring instructions
+        let sum = self.payment.iter()
+            .filter(|payment| payment.in_type == 1u8)
+            .map(|x| x.amt)
+            .sum();
+
+        AutoPayView { 
+            payments: payments,
+            recurring_sum: sum,
+        }
     }
 }

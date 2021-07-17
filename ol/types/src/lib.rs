@@ -17,3 +17,4 @@ pub mod oracle_upgrade;
 pub mod miner_state;
 pub mod dialogue;
 pub mod autopay;
+pub mod validator_config;

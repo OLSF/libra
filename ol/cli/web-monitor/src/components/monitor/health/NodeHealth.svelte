@@ -61,9 +61,21 @@
       is_true: false,
     },
     {
-      id: "has_auto_pay",
+      id: "has_autopay",
       title: "Autopay",
       description: "autopay instructions are set up",
+      is_true: false,
+    },
+    {
+      id: "has_operator_set",
+      title: "Operator Account",
+      description: "operator account is not set",
+      is_true: false,
+    },
+    {
+      id: "has_operator_positive_balance",
+      title: "Operator Balance",
+      description: "operator balance is not greater than zero",
       is_true: false,
     },
   ];
@@ -100,8 +112,20 @@
         }
         i.description = "node running in mode: ".concat(health_data.node_mode);
       }
-      if (i.id === "has_auto_pay") {
-        i.is_true = health_data.has_auto_pay;
+      if (i.id === "has_operator_set") {
+        i.is_true = health_data.has_operator_set;
+        i.description = i.is_true 
+          ? "operator account is set"
+          : "operator account is not set";
+      }
+      if (i.id === "has_operator_positive_balance") {
+        i.is_true = health_data.has_operator_positive_balance;
+        i.description = i.is_true 
+          ? "operator balance is positive"
+          : "operator balance is not positive";
+      }
+      if (i.id === "has_autopay") {
+        i.is_true = health_data.has_autopay;
         i.description = i.is_true 
           ? "autopay instructions are set up"
           : "autopay instructions not found";

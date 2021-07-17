@@ -40,10 +40,10 @@ script {
             i = i + 1;
         };
         // Carol is still a validator until the next epoch
-        assert(LibraSystem::validator_set_size() == 3, 7357180103011000);
-        assert(LibraSystem::is_validator({{alice}}), 7357180104011000);
-        assert(LibraSystem::is_validator({{bob}}), 7357180104011000);
-        assert(LibraSystem::is_validator({{carol}}), 7357180104011000);
+        assert(LibraSystem::validator_set_size() == 3, 7357008011001);
+        assert(LibraSystem::is_validator({{alice}}), 7357008011002);
+        assert(LibraSystem::is_validator({{bob}}), 7357008011003);
+        assert(LibraSystem::is_validator({{carol}}), 7357008011004);
     }
 }
 //check: EXECUTED
@@ -69,11 +69,11 @@ script {
     use 0x1::LibraConfig;
     fun main(_account: &signer) {
         // We are in a new epoch.
-        assert(LibraConfig::get_current_epoch() == 2, 7357180105011000);
+        assert(LibraConfig::get_current_epoch() == 2, 7357008011005);
         // Tests to ensure validator set size has indeed dropped
-        assert(LibraSystem::validator_set_size() == 2, 7357180105021000);
+        assert(LibraSystem::validator_set_size() == 2, 7357008011006);
         // Carol is no longer a validator because she removed herself the previous epoch
-        assert(LibraSystem::is_validator({{carol}}) == false, 7357180105031000);
+        assert(LibraSystem::is_validator({{carol}}) == false, 7357008011007);
     }
 }
 //check: EXECUTED
@@ -121,10 +121,10 @@ script {
     use 0x1::LibraSystem;
     use 0x1::LibraConfig;
     fun main(_account: &signer) {
-        assert(LibraConfig::get_current_epoch() == 3, 7357180107011000);
+        assert(LibraConfig::get_current_epoch() == 3, 7357008011008);
 
         // carol is still not a validator because she has not rejoined. 
-        assert(!LibraSystem::is_validator({{carol}}), 7357180107021000);
+        assert(!LibraSystem::is_validator({{carol}}), 7357008011009);
 
 
 
@@ -170,11 +170,11 @@ script {
     use 0x1::LibraSystem;
     use 0x1::LibraConfig;
     fun main(_account: &signer) {
-        assert(LibraConfig::get_current_epoch() == 4, 7357180108011000);
+        assert(LibraConfig::get_current_epoch() == 4, 7357008011010);
 
         // Carol is a validator once more
-        assert(LibraSystem::is_validator({{carol}}), 7357180108021000);
-        assert(LibraSystem::validator_set_size() == 3, 7357180105021000);
+        assert(LibraSystem::is_validator({{carol}}), 7357008011011);
+        assert(LibraSystem::validator_set_size() == 3, 7357008011012);
     }
 }
 //check: EXECUTED

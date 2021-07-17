@@ -23,7 +23,7 @@ script {
         // "Sender" is the only one that can update her mining stats. Hence this first transaction.
 
         MinerState::test_helper_mock_mining(sender, 5);
-        assert(MinerState::get_count_in_epoch({{alice}}) == 5, 7357120201011000);
+        assert(MinerState::get_count_in_epoch({{alice}}) == 5, 7357008003001);
     }
 }
 //check: EXECUTED
@@ -35,7 +35,7 @@ script {
     fun main(sender: &signer) {
         // Eve mines (case 3)
         MinerState::test_helper_mock_mining(sender, 5);
-        assert(MinerState::get_count_in_epoch({{eve}}) == 5, 7357120202011000);
+        assert(MinerState::get_count_in_epoch({{eve}}) == 5, 7357008003002);
     }
 }
 //check: EXECUTED
@@ -57,12 +57,12 @@ script {
             i = i + 1;
         };
 
-        assert(Cases::get_case(vm, {{alice}}, 0, 15) == 1, 7357120203011000);
-        assert(Cases::get_case(vm, {{eve}}, 0, 15) == 3, 7357120203021000);
-        assert(Cases::get_case(vm, {{frank}}, 0, 15) == 4, 7357120203031000);
+        assert(Cases::get_case(vm, {{alice}}, 0, 15) == 1, 7357008003003);
+        assert(Cases::get_case(vm, {{eve}}, 0, 15) == 3, 7357008003004);
+        assert(Cases::get_case(vm, {{frank}}, 0, 15) == 4, 7357008003005);
 
         let jailed = LibraSystem::get_jailed_set(vm, 0, 15);
-        assert(Vector::length<address>(&jailed) == 5, 7357120203041000);
+        assert(Vector::length<address>(&jailed) == 5, 7357008003006);
     }
 }
 //check: EXECUTED

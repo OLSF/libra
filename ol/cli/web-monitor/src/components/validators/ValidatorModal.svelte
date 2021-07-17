@@ -1,12 +1,33 @@
 <script>
+    import AutoPay from "../autopay/AutoPay.svelte";
     export let validator;
+    export let id;
+    function get_operator_account(validator) {
+        let config = validator.validator_config;
+        return config && config.operator_account
+            ? config.operator_account
+            : "Not Found";
+    }
+    function has_operator_balance(validator) {
+        let config = validator.validator_config;
+        return config && (config.operator_has_balance != null)
+            ? config.operator_has_balance
+            : "Not Found";
+    }
 </script>
 
+<style>
+    #validator-modal-body {
+        width: auto !important;
+        max-width: 1200px !important;
+    }
+</style>
+
 {#if validator}
-  <div id="validator-modal" uk-modal>
-      <div class="uk-modal-dialog uk-modal-body">
+  <div id="{id ? id : 'validator-modal'}" uk-modal>
+      <div id="validator-modal-body" class="uk-modal-dialog uk-modal-body">
           <button class="uk-modal-close-default" type="button" uk-close></button>
-          <h2 class="uk-modal-title">Validator Info</h2>
+          <h2 class="uk-modal-title uk-text-muted">Validator Info</h2>
           <table class="uk-table">
             <thead>
                 <tr>
@@ -32,11 +53,20 @@
                     <td>{validator.epochs_validating_and_mining}</td>
                 </tr>
                 <tr>
+                    <td>operator account</td>
+                    <td>{get_operator_account(validator)}</td>
+                </tr>
+                <tr>
+                    <td>operator has positive balance</td>
+                    <td>{has_operator_balance(validator)}</td>
+                </tr>
+                <tr>
                   <td>can create account</td>
                   <td>{validator.epochs_since_last_account_creation > 7}</td> <!--TODO move to the serve side?-->
-              </tr>
+                </tr>
             </tbody>
           </table>
+          <AutoPay account={validator}/>
       </div>
   </div>
 {/if}

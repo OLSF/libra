@@ -78,8 +78,8 @@ script {
     use 0x1::LibraSystem;
     fun main(_account: &signer) {
         // Tests on initial size of validators 
-        assert(LibraSystem::validator_set_size() == 4, 7357000180104);
-        assert(LibraSystem::is_validator({{alice}}) == true, 7357000180105);        
+        assert(LibraSystem::validator_set_size() == 4, 7357008004001);
+        assert(LibraSystem::is_validator({{alice}}) == true, 7357008004002);        
     }
 }
 //check: EXECUTED

@@ -33,7 +33,11 @@ pub struct Items {
   /// is in the validator set
   pub validator_set: bool,
   /// has auto pay not empty
-  pub has_auto_pay: bool,
+  pub has_autopay: bool,
+  /// has operator account set
+  pub has_operator_set: bool,
+  /// has operator positive balance
+  pub has_operator_positive_balance: bool,
 }
 
 impl Default for Items {
@@ -51,7 +55,9 @@ impl Default for Items {
       db_files_exist: false,
       web_running: false,
       node_mode: None,
-      has_auto_pay: false,
+      has_autopay: false,
+      has_operator_set: false,
+      has_operator_positive_balance: false,
     }
   }
 }

@@ -27,8 +27,8 @@ script {
     use 0x1::LibraTimestamp;
     fun main(){
       // the new epoch has reset the timer.
-      assert(LibraTimestamp::now_seconds() == 61, 735701);
-      assert(!Epoch::epoch_finished(), 735702);
+      assert(LibraTimestamp::now_seconds() == 61, 7357008002001);
+      assert(!Epoch::epoch_finished(), 7357008002002);
     }
 }
 // check: EXECUTED

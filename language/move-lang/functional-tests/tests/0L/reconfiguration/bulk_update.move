@@ -18,30 +18,30 @@ script {
 
     fun main(vm: &signer) {
         // Tests on initial size of validators 
-        assert(LibraSystem::validator_set_size() == 4, 73570001);
-        assert(LibraSystem::is_validator({{alice}}), 73570002);
-        assert(LibraSystem::is_validator({{bob}}), 73570003);
-        assert(LibraSystem::is_validator({{carol}}), 73570004);
-        assert(LibraSystem::is_validator({{dave}}), 73570005);
+        assert(LibraSystem::validator_set_size() == 4, 73570080010001);
+        assert(LibraSystem::is_validator({{alice}}), 73570080010002);
+        assert(LibraSystem::is_validator({{bob}}), 73570080010003);
+        assert(LibraSystem::is_validator({{carol}}), 73570080010004);
+        assert(LibraSystem::is_validator({{dave}}), 73570080010005);
 
         let old_vec = ValidatorUniverse::get_eligible_validators(vm);
-        assert(Vector::length<address>(&old_vec) == 4, 73570006);
+        assert(Vector::length<address>(&old_vec) == 4, 73570080010006);
         
         //Create vector of validators and func call
         let vec = Vector::empty();
         Vector::push_back<address>(&mut vec, {{alice}});
         Vector::push_back<address>(&mut vec, {{bob}});
         Vector::push_back<address>(&mut vec, {{carol}});
-        assert(Vector::length<address>(&vec) == 3, 73570007);
+        assert(Vector::length<address>(&vec) == 3, 73570080010007);
 
         LibraSystem::bulk_update_validators(vm, vec);
 
         // Check if updates are done
-        assert(LibraSystem::validator_set_size() == 3, 73570008);
-        assert(LibraSystem::is_validator({{alice}}), 73570009);
-        assert(LibraSystem::is_validator({{bob}}), 73570010);
-        assert(LibraSystem::is_validator({{carol}}), 73570011);
-        assert(LibraSystem::is_validator({{dave}}) == false, 73570012);
+        assert(LibraSystem::validator_set_size() == 3, 73570080010008);
+        assert(LibraSystem::is_validator({{alice}}), 73570080010009);
+        assert(LibraSystem::is_validator({{bob}}), 73570080010010);
+        assert(LibraSystem::is_validator({{carol}}), 73570080010011);
+        assert(LibraSystem::is_validator({{dave}}) == false, 73570080010012);
     }
 }
 // check: EXECUTED

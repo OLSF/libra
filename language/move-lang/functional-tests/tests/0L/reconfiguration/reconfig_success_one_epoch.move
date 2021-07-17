@@ -21,9 +21,9 @@ script {
     use 0x1::LibraSystem;
     fun main(_account: &signer) {
         // Tests on initial size of validators 
-        assert(LibraSystem::validator_set_size() == 5, 7357000180101);
-        assert(LibraSystem::is_validator({{alice}}) == true, 7357000180102);
-        assert(LibraSystem::is_validator({{bob}}) == true, 7357000180103);
+        assert(LibraSystem::validator_set_size() == 5, 7357008012001);
+        assert(LibraSystem::is_validator({{alice}}) == true, 7357008012002);
+        assert(LibraSystem::is_validator({{bob}}) == true, 7357008012003);
     }
 }
 // check: EXECUTED
@@ -36,9 +36,9 @@ script {
     use 0x1::LibraSystem;
     fun main(_account: &signer) {
         // Tests on initial size of validators 
-        assert(LibraSystem::validator_set_size() == 5, 7357000180104);
-        assert(LibraSystem::is_validator({{alice}}) == true, 7357000180105);
-        assert(LibraSystem::is_validator({{bob}}) == true, 7357000180106);
+        assert(LibraSystem::validator_set_size() == 5, 7357008012004);
+        assert(LibraSystem::is_validator({{alice}}) == true, 7357008012005);
+        assert(LibraSystem::is_validator({{bob}}) == true, 7357008012006);
     }
 }
 //check: EXECUTED
@@ -87,8 +87,8 @@ script {
     use 0x1::LibraSystem;
     use 0x1::LibraConfig;
     fun main(_account: &signer) {
-        assert(LibraSystem::validator_set_size() == 5, 7357180103011000);
-        assert(LibraConfig::get_current_epoch() == 2, 7357180103021000);
+        assert(LibraSystem::validator_set_size() == 5, 7357008012007);
+        assert(LibraConfig::get_current_epoch() == 2, 7357008012008);
     }
 }
 // check: EXECUTED

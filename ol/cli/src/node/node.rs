@@ -104,7 +104,9 @@ impl Node {
             self.vitals.items.sync_height = 404;
         }
         self.vitals.items.validator_set = self.is_in_validator_set();
-        self.vitals.items.has_auto_pay = self.vitals.account_view.has_auto_pay_not_empty();
+        self.vitals.items.has_autopay = self.vitals.account_view.has_autopay_not_empty();
+        self.vitals.items.has_operator_set = self.vitals.account_view.has_operator();
+        self.vitals.items.has_operator_positive_balance = self.vitals.account_view.has_operator_positive_balance();
         self
     }
 

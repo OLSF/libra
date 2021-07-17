@@ -2,6 +2,13 @@
   import "../../layout/Style.svelte";
   
   export let account;
+
+  function formatBalance(balance) {
+    return balance.toLocaleString('en-ES', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
 </script>
 
 <div class="uk-card uk-card-default uk-card-body uk-margin-bottom">
@@ -11,19 +18,25 @@
 
   {#if account}
     <table class="uk-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Address</th>
+          <th>Balance</th>
+        </tr>
       <tbody>
         <tr>
-          <td class="uk-text-uppercase">owner</td>
+          <td class="uk-text-uppercase">validator</td>
           <td class="uk-text-truncate">{account.address}</td>
+          <td class="uk-text-right">{formatBalance(account.balance)}</td>
         </tr>
-        <tr>
-          <td class="uk-text-uppercase">balance</td>
-          <td>{account.balance.toLocaleString('en-ES')}</td>
-        </tr>
-        <tr>
-          <td class="uk-text-uppercase">In Set</td>
-          <td class="uk-text-uppercase">{account.is_in_validator_set}</td>
-        </tr>
+        {#if account.operator_account != null}
+          <tr>
+            <td class="uk-text-uppercase">operator</td>
+            <td class="uk-text-truncate">{account.operator_account}</td>
+            <td class="uk-text-right">{formatBalance(account.operator_balance)}</td>
+          </tr>
+        {/if}
       </tbody>
     </table>
   {:else}

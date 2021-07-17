@@ -1,19 +1,41 @@
-
 // This tests consensus Case 2.
 // ALICE is a validator.
 // DID validate successfully.
 // DID NOT mine above the threshold for the epoch. 
 
-//! account: alice, 1, 0, validator
-//! account: bob, 1, 0, validator
-//! account: carol, 1, 0, validator
-//! account: dave, 1, 0, validator
-//! account: eve, 1, 0, validator
+//! account: alice, 100000, 0, validator
+//! account: bob, 100000, 0, validator
+//! account: carol, 100000, 0, validator
+//! account: dave, 100000, 0, validator
+//! account: eve, 100000, 0, validator
 
 //! block-prologue
 //! proposer: alice
 //! block-time: 1
 //! NewBlockEvent
+
+//! new-transaction
+//! sender: libraroot
+script {
+    use 0x1::LibraAccount;
+    use 0x1::GAS::GAS;
+    use 0x1::ValidatorConfig;
+
+    fun main(sender: &signer) {
+        // tranfer enough coins to operators
+        let oper_alice = ValidatorConfig::get_operator({{alice}});
+        let oper_bob = ValidatorConfig::get_operator({{bob}});
+        let oper_carol = ValidatorConfig::get_operator({{carol}});
+        let oper_dave = ValidatorConfig::get_operator({{dave}});
+        let oper_eve = ValidatorConfig::get_operator({{eve}});
+        LibraAccount::vm_make_payment_no_limit<GAS>({{alice}}, oper_alice, 50009, x"", x"", sender);
+        LibraAccount::vm_make_payment_no_limit<GAS>({{bob}}, oper_bob, 50009, x"", x"", sender);
+        LibraAccount::vm_make_payment_no_limit<GAS>({{carol}}, oper_carol, 50009, x"", x"", sender);
+        LibraAccount::vm_make_payment_no_limit<GAS>({{dave}}, oper_dave, 50009, x"", x"", sender);
+        LibraAccount::vm_make_payment_no_limit<GAS>({{eve}}, oper_eve, 50009, x"", x"", sender);
+    }
+}
+//check: EXECUTED
 
 //! new-transaction
 //! sender: bob
@@ -35,7 +57,7 @@ script {
 
         //// NO MINING ////
 
-        assert(LibraAccount::balance<GAS>({{bob}}) == 1, 7357000180106);
+        assert(LibraAccount::balance<GAS>({{bob}}) == 49991, 7357000180106);
         assert(NodeWeight::proof_of_weight({{bob}}) == 0, 7357000180107);  
         assert(MinerState::test_helper_get_height({{bob}}) == 0, 7357000180108);
     }
@@ -117,7 +139,7 @@ script {
         
         //case 2 does not get rewards.
         print(&LibraAccount::balance<GAS>({{bob}}));
-        assert(LibraAccount::balance<GAS>({{bob}}) == 1, 7357000180112);  
+        assert(LibraAccount::balance<GAS>({{bob}}) == 49991, 7357000180112);  
 
         //case 2 does not increment weight.
         assert(NodeWeight::proof_of_weight({{bob}}) == 0, 7357000180113);  
